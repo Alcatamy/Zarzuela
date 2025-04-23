@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Interactiva Detallada HZ - 27/04/2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'turf-green': '#228B22',
+                        'turf-dirt': '#D2B48C',
+                        'turf-rail': '#A0522D',
+                        'turf-sky': '#ADD8E6',
+                        'turf-text': '#3A3A3A',
+                        'turf-gold': '#FFD700', // Dorado para favoritos/picks
+                        'turf-silver': '#C0C0C0',
+                        'turf-bronze': '#CD7F32',
+                        'track-bg': '#f4e9d8',
+                        'finish-line': '#e53e3e',
+                        'modal-bg': 'rgba(0, 0, 0, 0.6)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos generales, pestañas, tabla, análisis, iconos */
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; }
+        .tab-active { background-color: #228B22; color: white; border-color: #166d16; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .tab-inactive { background-color: white; color: #A0522D; border-color: #D2B48C; }
+        .tab-inactive:hover { background-color: #f7fafc; border-color: #A0522D; }
+        .tab, .tab-content { transition: all 0.3s ease-in-out; }
+        .tab-content { display: none; animation: fadeIn 0.5s ease-in-out; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        th, td { padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 0.8rem; vertical-align: middle; }
+        th { background-color: #e2e8f0; color: #4a5568; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        tbody tr:nth-child(odd) { background-color: #fdfdfd; }
+        tbody tr:nth-child(even) { background-color: #f7fafc; }
+        tbody tr:hover { background-color: #edf2f7; cursor: pointer; }
+        .horse-name { font-weight: 600; color: #2c5282; }
+        .jockey-name { font-style: italic; color: #5a67d8; }
+        .trainer-name { color: #805ad5; }
+        .ult-act { font-family: monospace; letter-spacing: 1px; word-break: break-all; }
+        .analysis-section { border-left: 4px solid #D2B48C; padding-left: 1rem; margin-top: 1.5rem; }
+        .analysis-title { font-size: 1.1rem; font-weight: 600; color: #A0522D; margin-bottom: 0.5rem; }
+        .favorite { color: #b7791f; font-weight: 600; }
+        .place-option { color: #718096; font-weight: 600; }
+        .longshot { color: #975a16; font-weight: 600; }
+        .fa-horse-head { color: #A0522D; } .fa-ruler-horizontal { color: #228B22; } .fa-clock { color: #4A90E2; } .fa-euro-sign { color: #F5A623; } .fa-binoculars { color: #4a5568; } .fa-book-open { color: #4a5568; } .fa-star { color: #FFD700; } .fa-medal { color: #C0C0C0; } .fa-rocket { color: #CD7F32; } .fa-weight-hanging { color: #718096; } .fa-map-pin { color: #dd6b20; } .fa-cloud-sun { color: #4299e1; }
+
+        /* --- ESTILOS PARA LA SIMULACIÓN --- */
+        .simulation-container { margin-top: 1.5rem; padding: 1rem; border: 1px solid #D2B48C; border-radius: 8px; background-color: #fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); }
+        .race-track { position: relative; width: 100%; height: 250px; background-color: #f4e9d8; border-radius: 4px; overflow: hidden; border: 1px solid #e2d6c4; padding: 10px 0; }
+        .finish-line { position: absolute; right: 20px; top: 0; bottom: 0; width: 5px; background-color: #e53e3e; box-shadow: 2px 0 5px rgba(0,0,0,0.2); }
+        .finish-line::after { content: 'META'; position: absolute; top: -20px; left: -15px; font-size: 10px; font-weight: bold; color: #e53e3e; transform: rotate(-90deg); transform-origin: left top; white-space: nowrap; }
+        .horse-runner { position: absolute; left: 10px; width: 25px; height: 25px; border-radius: 50%; background-color: #A0522D; color: white; font-size: 10px; font-weight: bold; display: flex; justify-content: center; align-items: center; transition: transform 0.1s linear; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .horse-runner[data-color="1"] { background-color: #DC2626; } .horse-runner[data-color="2"] { background-color: #2563EB; } .horse-runner[data-color="3"] { background-color: #16A34A; } .horse-runner[data-color="4"] { background-color: #FBBF24; } .horse-runner[data-color="5"] { background-color: #9333EA; } .horse-runner[data-color="6"] { background-color: #F97316; } .horse-runner[data-color="7"] { background-color: #EC4899; } .horse-runner[data-color="8"] { background-color: #6B7280; } .horse-runner[data-color="9"] { background-color: #14B8A6; } .horse-runner[data-color="10"] { background-color: #000000; } .horse-runner[data-color="11"] { background-color: #ffffff; color: #000; border: 1px solid #ccc; } .horse-runner[data-color="12"] { background-color: #ca8a04; } .horse-runner[data-color="13"] { background-color: #65a30d; } .horse-runner[data-color="14"] { background-color: #be185d; } .horse-runner[data-color="15"] { background-color: #0891b2; } .horse-runner[data-color="16"] { background-color: #4d7c0f; }
+        .horse-running { /* La transformación se aplica con JS */ }
+
+        /* --- ESTILOS PARA EL MODAL --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background-color: white; padding: 1.5rem 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); width: 90%; max-width: 600px; position: relative; transform: scale(0.95); transition: transform 0.3s ease; max-height: 90vh; overflow-y: auto; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .modal-close-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 1.8rem; color: #aaa; cursor: pointer; line-height: 1; }
+        .modal-close-btn:hover { color: #333; }
+        .modal-horse-title { font-size: 1.5rem; font-weight: bold; color: #2c5282; margin-bottom: 1rem; border-bottom: 2px solid #D2B48C; padding-bottom: 0.5rem; }
+        .modal-detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem; font-size: 0.9rem; margin-bottom: 1rem; }
+        .modal-detail-item strong { color: #A0522D; margin-right: 0.5em; display: block; margin-bottom: 0.1em; font-size: 0.8em; text-transform: uppercase; }
+        .modal-detail-item span { display: block; }
+        .modal-equipamiento span { display: inline-block; background-color: #e2e8f0; color: #4a5568; padding: 0.2rem 0.5rem; border-radius: 5px; font-size: 0.75rem; margin-right: 0.3rem; margin-bottom: 0.3rem; }
+        .modal-analysis { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee; }
+        .modal-analysis-title { font-weight: 600; color: #A0522D; margin-bottom: 0.5rem; font-size: 1rem; }
+        .modal-analysis-text { font-size: 0.85rem; line-height: 1.5; color: #4A5568; }
+        .modal-pick-status { margin-top: 1rem; padding: 0.6rem; border-radius: 5px; font-weight: bold; text-align: center; font-size: 0.9rem; }
+        .pick-ganador { background-color: #FFFBEB; border: 1px solid #FBBF24; color: #B45309; }
+        .pick-colocado { background-color: #F1F5F9; border: 1px solid #94A3B8; color: #475569; }
+        .pick-sorpresa { background-color: #FEF3C7; border: 1px solid #F59E0B; color: #92400E; }
+        .pick-none { display: none; } /* Ocultar si no hay pick */
+
+
+        /* Responsive table adjustments */
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr { display: block; }
+            thead tr { position: absolute; top: -9999px; left: -9999px; }
+            tr { border: 1px solid #ccc; margin-bottom: 1rem; border-radius: 8px; overflow: hidden; }
+            td { border: none; border-bottom: 1px solid #eee; position: relative; padding-left: 45%; padding-top: 0.5rem; padding-bottom: 0.5rem; white-space: normal; text-align: left; min-height: 30px; display: flex; align-items: center; }
+            td:before { position: absolute; top: 0; left: 6px; width: 40%; padding-right: 10px; white-space: nowrap; text-align: left; font-weight: 600; color: #4a5568; height: 100%; display: flex; align-items: center; font-size: 0.75rem; border-right: 1px solid #e2e8f0; background-color: #f7fafc; padding-left: 4px; }
+            td:nth-of-type(1):before { content: "Nº"; } td:nth-of-type(2):before { content: "Caballo"; } td:nth-of-type(3):before { content: "Edad"; } td:nth-of-type(4):before { content: "KG"; } td:nth-of-type(5):before { content: "Jinete"; } td:nth-of-type(6):before { content: "Cuadra"; } td:nth-of-type(7):before { content: "Entrenador"; } td:nth-of-type(8):before { content: "Cajón"; } td:nth-of-type(9):before { content: "Últ. Act."; }
+            .race-track { height: 200px; }
+            .horse-runner { width: 20px; height: 20px; font-size: 8px; }
+            .modal-content { width: 95%; padding: 1.5rem; max-height: 85vh; }
+            .modal-horse-title { font-size: 1.3rem; }
+            .modal-detail-grid { grid-template-columns: 1fr; }
+        }
+        /* Footer */
+        footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #D2B48C; text-align: center; font-size: 0.8rem; color: #718096; }
+
+    </style>
+</head>
+<body class="bg-gray-100 text-turf-text p-4 md:p-8">
+
+    <div class="container mx-auto max-w-7xl bg-white rounded-2xl shadow-xl p-6 md:p-10">
+
+        <header class="text-center mb-8 border-b pb-6 border-turf-dirt">
+            <h1 class="text-3xl md:text-4xl font-bold text-turf-green mb-1">
+                <i class="fas fa-horse-head mr-2"></i>Hipódromo de la Zarzuela
+            </h1>
+            <p class="text-lg text-gray-600 font-semibold mb-2">Ranchos Magazine</p>
+            <p class="text-xl text-turf-rail font-semibold">Guía Completa - Domingo, 27 de Abril de 2025</p>
+            <p class="text-xs text-gray-500 mt-1">Análisis y Pronósticos basados en el programa oficial</p>
+        </header>
+
+        <div class="mb-8 flex flex-wrap justify-center gap-2 md:gap-3">
+            <button class="tab tab-active py-2 px-3 md:px-4 rounded-md border-2 font-semibold text-sm md:text-base shadow-md focus:outline-none" onclick="changeTab(event, 'carrera1')">1ª Carrera</button>
+            <button class="tab tab-inactive py-2 px-3 md:px-4 rounded-md border-2 font-semibold text-sm md:text-base shadow-md focus:outline-none" onclick="changeTab(event, 'carrera2')">2ª Carrera</button>
+            <button class="tab tab-inactive py-2 px-3 md:px-4 rounded-md border-2 font-semibold text-sm md:text-base shadow-md focus:outline-none" onclick="changeTab(event, 'carrera3')">3ª Carrera</button>
+            <button class="tab tab-inactive py-2 px-3 md:px-4 rounded-md border-2 font-semibold text-sm md:text-base shadow-md focus:outline-none" onclick="changeTab(event, 'carrera4')">4ª Carrera</button>
+            <button class="tab tab-inactive py-2 px-3 md:px-4 rounded-md border-2 font-semibold text-sm md:text-base shadow-md focus:outline-none" onclick="changeTab(event, 'carrera5')">5ª Carrera</button>
+            <button class="tab tab-inactive py-2 px-3 md:px-4 rounded-md border-2 font-semibold text-sm md:text-base shadow-md focus:outline-none" onclick="changeTab(event, 'carrera6')">6ª Carrera</button>
+            <button class="tab tab-inactive py-2 px-3 md:px-4 rounded-md border-2 font-semibold text-sm md:text-base shadow-md focus:outline-none" onclick="changeTab(event, 'paddock')"><i class="fas fa-binoculars mr-1"></i> Paddock</button>
+            <button class="tab tab-inactive py-2 px-3 md:px-4 rounded-md border-2 font-semibold text-sm md:text-base shadow-md focus:outline-none" onclick="changeTab(event, 'leyenda')"><i class="fas fa-book-open mr-1"></i> Leyenda</button>
+        </div>
+
+        <div id="tab-contents">
+
+            <div id="carrera1" class="tab-content active p-4 bg-gray-50 rounded-lg shadow-inner">
+                 <h2 class="text-2xl font-bold text-turf-green mb-1">1ª Carrera: Premio Revista Corta Cabeza</h2>
+                 <p class="mb-3 text-md text-turf-rail">(Hándicap Dividido 2ª parte) (Made in Spain) - 2.200 mts.</p>
+                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5 text-sm border-y py-3 bg-white rounded">
+                    <div class="flex items-center"><i class="fas fa-clock mr-2 text-blue-500"></i> <strong>Hora:</strong> 11:30 h.</div>
+                    <div class="flex items-center"><i class="fas fa-euro-sign mr-2 text-yellow-600"></i> <strong>Premio:</strong> 7.650 €</div>
+                    <div class="flex items-center"><i class="fas fa-cloud-sun mr-2 text-sky-500"></i> <strong>Pista (Prevista):</strong> Buena / Bueno-Blando</div>
+                 </div>
+
+                 <div class="analysis-section mb-6">
+                     <h3 class="analysis-title">Análisis y Pronóstico</h3>
+                     <p class="text-sm mb-3">Carrera muy igualada con caballos expertos. Spanish Ruler destaca por forma y regularidad.</p>
+                     <ul class="list-none space-y-3 text-sm">
+                         <li><i class="fas fa-star mr-2 text-turf-gold"></i><strong class="favorite">Ganador:</strong> <span class="horse-name">9 SPANISH RULER (FR)</span></li>
+                         <li><i class="fas fa-medal mr-2 text-turf-silver"></i><strong class="place-option">Colocados:</strong> <span class="horse-name">7 VIKING CITY (FR)</span>, <span class="horse-name">1 SOFUNNY (IRE)</span></li>
+                          <li><i class="fas fa-rocket mr-2 text-turf-bronze"></i><strong class="longshot">Sorpresa:</strong> <span class="horse-name">13 URABA (FR)</span></li>
+                     </ul>
+                 </div>
+
+                 <div class="simulation-container">
+                     <button id="simulate-btn-1" class="bg-turf-rail hover:bg-opacity-80 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-3 text-sm" onclick="startSimulation(1)">
+                         <i class="fas fa-play mr-2"></i>Simular Carrera 1
+                     </button>
+                     <div id="race-track-1" class="race-track hidden">
+                         <div class="finish-line"></div>
+                     </div>
+                      <p id="winner-info-1" class="text-center mt-2 font-semibold text-turf-green hidden"></p>
+                 </div>
+                 <h4 class="text-lg font-semibold text-turf-rail mb-3 mt-6">Participantes (Programa Detallado)</h4>
+                 <div class="overflow-x-auto">
+                      <table id="participants-1" class="min-w-full bg-white rounded-lg shadow participants-table">
+                         <thead>
+                             <tr><th>Nº</th><th>Caballo</th><th>Edad</th><th>KG</th><th>Jinete</th><th>Cuadra</th><th>Entrenador</th><th>Cajón</th><th class="text-center">Últ. Act.</th></tr>
+                         </thead>
+                        <tbody>
+                            <tr onclick="showHorseModal(this, 1)"><td>1</td><td class="horse-name">SOFUNNY (IRE)</td><td>6a</td><td>63</td><td class="jockey-name">B. FAYOS</td><td>MAFRIS</td><td class="trainer-name">L. CROSELL</td><td class="text-center">10</td><td class="ult-act text-center">08,08,06,07,01</td></tr>
+                            <tr onclick="showHorseModal(this, 1)"><td>2</td><td class="horse-name">LADY WULFRUN (GB) (4)(8)</td><td>4a</td><td>63</td><td class="jockey-name">G. ARGUINZONES (60)</td><td>DIAZ MOR</td><td class="trainer-name">B. RAMA</td><td class="text-center">1</td><td class="ult-act text-center">07,11,08,05,02</td></tr>
+                            <tr onclick="showHorseModal(this, 1)"><td>3</td><td class="horse-name">ORBAYO (IRE) (8)</td><td>9a</td><td>62,5</td><td class="jockey-name">N. DE JULIAN</td><td>LAS AGUILAS</td><td class="trainer-name">A. CARRASCO</td><td class="text-center">6</td><td class="ult-act text-center">07,01,05,07,16</td></tr>
+                            <tr onclick="showHorseModal(this, 1)"><td>4</td><td class="horse-name">PIONINA</td><td>4a</td><td>62,5</td><td class="jockey-name">J. GELABERT</td><td>JUNCALILLO</td><td class="trainer-name">F. RODRIGUEZ</td><td class="text-center">8</td><td class="ult-act text-center">05,03,05,02,04</td></tr>
+                            <tr onclick="showHorseModal(this, 1)"><td>5</td><td class="horse-name">DEMBE (FR) (a)(4)(8)</td><td>5a</td><td>62</td><td class="jockey-name">V. JANACEK</td><td>SANTA BARBARA</td><td class="trainer-name">J.M. OSORIO</td><td class="text-center">14</td><td class="ult-act text-center">02,03,NP,04,09</td></tr>
+                            <tr onclick="showHorseModal(this, 1)"><td>6</td><td class="horse-name">WHIM TRADE (FR) (5)</td><td>4a</td><td>62</td><td class="jockey-name">J.C. DIESTRA</td><td>HERCULES Y FALLAS</td><td class="trainer-name">A. TSERETELI</td><td class="text-center">2</td><td class="ult-act text-center">11,05,05,06,03</td></tr>
+                            <tr onclick="showHorseModal(this, 1)"><td>7</td><td class="horse-name">VIKING CITY (FR) (5)(8)</td><td>6a</td><td>61,5</td><td class="jockey-name">H. MOUESAN</td><td>ESGUEVA</td><td class="trainer-name">T. CALLEJOS</td><td class="text-center">11</td><td class="ult-act text-center">12,03,09,01,02</td></tr>
+                            <tr onclick="showHorseModal(this, 1)"><td>8</td><td class="horse-name">STARSHADOW (GB) (5)</td><td>5a</td><td>61,5</td><td class="jockey-name">D. SIKOROVA (60,5)</td><td>CELSO MENDEZ</td><td class="trainer-name">M. ALVAREZ</td><td class="text-center">12</td><td class="ult-act text-center">04,05,05,10,03</td></tr>
+                            <tr onclick="showHorseModal(this, 1)"><td>9</td><td class="horse-name">SPANISH RULER (FR) (5)(8)</td><td>5a</td><td>61</td><td class="jockey-name">R. SOUSA</td><td>YEGUADA VALMODOMUS</td><td class="trainer-name">D. BENITEZ</td><td class="text-center">3</td><td class="ult-act text-center">06,04,03,04,02</td></tr>
+                            <tr onclick="showHorseModal(this, 1)"><td>10</td><td class="horse-name">MARCO AURELIO (IRE)</td><td>4a</td><td>59</td><td class="jockey-name">E. AREVALO</td><td>DON PEPE</td><td class="trainer-name">M. ALVAREZ</td><td class="text-center">5</td><td class="ult-act text-center">09,04,06,05,03</td></tr>
+                            <tr onclick="showHorseModal(this, 1)"><td>11</td><td class="horse-name">YIRA (FR) (8)</td><td>4a</td><td>59</td><td class="jockey-name">C. PEREZ (57)</td><td>MANU POLO</td><td class="trainer-name">B. MORENO</td><td class="text-center">7</td><td class="ult-act text-center">03,07,07,05,07</td></tr>
+                            <tr onclick="showHorseModal(this, 1)"><td>12</td><td class="horse-name">MAZELTOF (FR) (8)</td><td>9a</td><td>57</td><td class="jockey-name">A. MARTINEZ (56)</td><td>OLYMPUS</td><td class="trainer-name">J.C. CERQUEIRA</td><td class="text-center">13</td><td class="ult-act text-center">08,05,05,05,03</td></tr>
+                            <tr onclick="showHorseModal(this, 1)"><td>13</td><td class="horse-name">URABA (FR) (8)</td><td>5a</td><td>54</td><td class="jockey-name">L. MENDIZABAL (55)</td><td>ALVELA</td><td class="trainer-name">L. ELARRE</td><td class="text-center">4</td><td class="ult-act text-center">07,02,08,07,05</td></tr>
+                            <tr onclick="showHorseModal(this, 1)"><td>14</td><td class="horse-name">MAHATMA (IRE) (4)</td><td>5a</td><td>52,5</td><td class="jockey-name">V. ALONSO V. (51,5)</td><td>GIULIA</td><td class="trainer-name">M. AUGELLI</td><td class="text-center">9</td><td class="ult-act text-center">11,10,07,04,03</td></tr>
+                        </tbody>
+                      </table>
+                 </div>
+            </div>
+
+            <div id="carrera2" class="tab-content p-4 bg-gray-50 rounded-lg shadow-inner">
+                 <h2 class="text-2xl font-bold text-turf-green mb-1">2ª Carrera: Premio Maracay</h2>
+                 <p class="mb-3 text-md text-turf-rail">(Made in Spain) - 1.400 mts.</p>
+                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5 text-sm border-y py-3 bg-white rounded">
+                    <div class="flex items-center"><i class="fas fa-clock mr-2 text-blue-500"></i> <strong>Hora:</strong> 12:05 h.</div>
+                    <div class="flex items-center"><i class="fas fa-euro-sign mr-2 text-yellow-600"></i> <strong>Premio:</strong> 10.200 €</div>
+                    <div class="flex items-center"><i class="fas fa-cloud-sun mr-2 text-sky-500"></i> <strong>Pista (Prevista):</strong> Buena / Bueno-Blando</div>
+                 </div>
+
+                 <div class="analysis-section mb-6">
+                     <h3 class="analysis-title">Análisis y Pronóstico (Informe Resumen)</h3>
+                     <p class="text-sm mb-3">Condicional de 3 años con muchos debutantes. Alhaurin destaca por consistencia.</p>
+                     <ul class="list-none space-y-3 text-sm">
+                         <li><i class="fas fa-star mr-2 text-turf-gold"></i><strong class="favorite">Ganador:</strong> <span class="horse-name">2 ALHAURIN (IRE)</span></li>
+                         <li><i class="fas fa-medal mr-2 text-turf-silver"></i><strong class="place-option">Colocados:</strong> <span class="horse-name">15 TARA ROAD (IRE)</span>, <span class="horse-name">8 ETERNAL SANDS (IRE)</span></li>
+                          <li><i class="fas fa-rocket mr-2 text-turf-bronze"></i><strong class="longshot">Sorpresa:</strong> <span class="horse-name">14 KAMARA (IRE)</span></li>
+                     </ul>
+                 </div>
+
+                 <div class="simulation-container">
+                     <button id="simulate-btn-2" class="bg-turf-rail hover:bg-opacity-80 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-3 text-sm" onclick="startSimulation(2)">
+                         <i class="fas fa-play mr-2"></i>Simular Carrera 2
+                     </button>
+                     <div id="race-track-2" class="race-track hidden">
+                         <div class="finish-line"></div>
+                     </div>
+                      <p id="winner-info-2" class="text-center mt-2 font-semibold text-turf-green hidden"></p>
+                 </div>
+                 <h4 class="text-lg font-semibold text-turf-rail mb-3 mt-6">Participantes (Programa Detallado)</h4>
+                 <div class="overflow-x-auto">
+                      <table id="participants-2" class="min-w-full bg-white rounded-lg shadow participants-table">
+                         <thead>
+                              <tr><th>Nº</th><th>Caballo</th><th>Edad</th><th>KG</th><th>Jinete</th><th>Cuadra</th><th>Entrenador</th><th>Cajón</th><th class="text-center">Últ. Act.</th></tr>
+                         </thead>
+                         <tbody>
+                            <tr onclick="showHorseModal(this, 2)"><td>1</td><td class="horse-name">AFRICAN RULER (FR) (a)(3)(8)</td><td>3a</td><td>57</td><td class="jockey-name">L. GELABERT</td><td>R. MARTIN A.</td><td class="trainer-name">ALVARO MATEOS</td><td class="text-center">1</td><td class="ult-act text-center">06,04</td></tr>
+                            <tr onclick="showHorseModal(this, 2)"><td>2</td><td class="horse-name">ALHAURIN (IRE)</td><td>3a</td><td>57</td><td class="jockey-name">R. SOUSA</td><td>G. ARIZKORRETA</td><td class="trainer-name">MEDITERRANEO</td><td class="text-center">5</td><td class="ult-act text-center">03,03</td></tr>
+                            <tr onclick="showHorseModal(this, 2)"><td>3</td><td class="horse-name">AÑOVER (4)(8)</td><td>3a</td><td>57</td><td class="jockey-name">S. LE QUILLEUC</td><td>J.M. OSORIO</td><td class="trainer-name">EL BERROJO</td><td class="text-center">13</td><td class="ult-act text-center">06,06,05,02,NP</td></tr>
+                            <tr onclick="showHorseModal(this, 2)"><td>4</td><td class="horse-name">AS BESTAS (IRE)</td><td>3a</td><td>57</td><td class="jockey-name">B. FAYOS</td><td>O. ANAYA</td><td class="trainer-name">SALVADOR MARQUEZ</td><td class="text-center">3</td><td class="ult-act text-center">08</td></tr>
+                            <tr onclick="showHorseModal(this, 2)"><td>5</td><td class="horse-name">BRISEO (FR) (5)(8)</td><td>3a</td><td>57</td><td class="jockey-name">N. DE JULIAN</td><td>ESTRELLAS DE MONTEFARO</td><td class="trainer-name">C. CERQUEIRA</td><td class="text-center">4</td><td class="ult-act text-center">05,05,05,05,05</td></tr>
+                            <tr onclick="showHorseModal(this, 2)"><td>6</td><td class="horse-name">DALLAS (5)</td><td>3a</td><td>57</td><td class="jockey-name">A. SERRANO (54,5)</td><td>J. LOPEZ</td><td class="trainer-name">BERNIE</td><td class="text-center">2</td><td class="ult-act text-center">10,06,10,02,04</td></tr>
+                            <tr onclick="showHorseModal(this, 2)"><td>7</td><td class="horse-name">DONENTAL (GB) (8)</td><td>3a</td><td>57</td><td class="jockey-name">C. PEREZ (55)</td><td>B. RAMA</td><td class="trainer-name">AJEDREZ RACING</td><td class="text-center">8</td><td class="ult-act text-center">03,02,05,03,04</td></tr>
+                            <tr onclick="showHorseModal(this, 2)"><td>8</td><td class="horse-name">ETERNAL SANDS (IRE)</td><td>3a</td><td>57</td><td class="jockey-name">V. JANACEK</td><td>VALLADOLID</td><td class="trainer-name">G. ARIZKORRETA</td><td class="text-center">6</td><td class="ult-act text-center">02,08</td></tr>
+                            <tr onclick="showHorseModal(this, 2)"><td>9</td><td class="horse-name">MANUCHEHR (GB)</td><td>3a</td><td>57</td><td class="jockey-name">R.N. VALLE</td><td>O. ANAYA</td><td class="trainer-name">REZA PAZOOKI</td><td class="text-center">7</td><td class="ult-act text-center">08,02,04,07,NP</td></tr>
+                            <tr onclick="showHorseModal(this, 2)"><td>10</td><td class="horse-name">VIZCONDE (FR)</td><td>3a</td><td>57</td><td class="jockey-name">V. SEGUY (G. Roja)</td><td>A. TSERETELI</td><td class="trainer-name">MEDITERRANEO</td><td class="text-center">14</td><td class="ult-act text-center">NP</td></tr>
+                            <tr onclick="showHorseModal(this, 2)"><td>11</td><td class="horse-name">DANGARA (GB)</td><td>3a</td><td>55,5</td><td class="jockey-name">L. MENDIZABAL</td><td>G. ARIZKORRETA</td><td class="trainer-name">ALEX Y SOFIA</td><td class="text-center">15</td><td class="ult-act text-center">09,NP</td></tr>
+                            <tr onclick="showHorseModal(this, 2)"><td>12</td><td class="horse-name">EARTHVIEW (GB) (4)</td><td>3a</td><td>55,5</td><td class="jockey-name">G. ARGUINZONES (54,5)</td><td>CANARIAS</td><td class="trainer-name">B. RAMA</td><td class="text-center">10</td><td class="ult-act text-center">11,07</td></tr>
+                            <tr onclick="showHorseModal(this, 2)"><td>13</td><td class="horse-name">INTERROGATION (3)(8)</td><td>3a</td><td>55,5</td><td class="jockey-name">H. MOUESAN</td><td>ESGUEVA</td><td class="trainer-name">T. CALLEJOS</td><td class="text-center">9</td><td class="ult-act text-center">04,07,07,03,NP</td></tr>
+                            <tr onclick="showHorseModal(this, 2)"><td>14</td><td class="horse-name">KAMARA (IRE)</td><td>3a</td><td>55,5</td><td class="jockey-name">A. GUTIERREZ V.</td><td>CH. DELCHER</td><td class="trainer-name">AGRADO</td><td class="text-center">11</td><td class="ult-act text-center">03</td></tr>
+                            <tr onclick="showHorseModal(this, 2)"><td>15</td><td class="horse-name">TARA ROAD (IRE)</td><td>3a</td><td>55,5</td><td class="jockey-name">V.M. VALENZUELA</td><td>IRU</td><td class="trainer-name">O. ANAYA</td><td class="text-center">16</td><td class="ult-act text-center">05,02,02,04,08</td></tr>
+                            <tr onclick="showHorseModal(this, 2)"><td>16</td><td class="horse-name">ZALAMERA (IRE) (8)</td><td>3a</td><td>55,5</td><td class="jockey-name">D. SIKOROVA (54,5) (G. Amarilla)</td><td>A. SOTO</td><td class="trainer-name">MEDITERRANEO</td><td class="text-center">12</td><td class="ult-act text-center">NP,04</td></tr>
+                         </tbody>
+                      </table>
+                 </div>
+            </div>
+
+             <div id="carrera3" class="tab-content p-4 bg-gray-50 rounded-lg shadow-inner">
+                 <h2 class="text-2xl font-bold text-turf-green mb-1">3ª Carrera: Gran Premio Cimera (Poule de Potros)</h2>
+                 <p class="mb-3 text-md text-turf-rail">(Categoría A) (Made in Spain criadores) - 1.600 mts.</p>
+                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5 text-sm border-y py-3 bg-white rounded">
+                    <div class="flex items-center"><i class="fas fa-clock mr-2 text-blue-500"></i> <strong>Hora:</strong> 12:40 h.</div>
+                    <div class="flex items-center"><i class="fas fa-euro-sign mr-2 text-yellow-600"></i> <strong>Premio:</strong> 51.000 €</div>
+                    <div class="flex items-center"><i class="fas fa-cloud-sun mr-2 text-sky-500"></i> <strong>Pista (Prevista):</strong> Buena / Bueno-Blando</div>
+                 </div>
+
+                 <div class="analysis-section mb-6">
+                     <h3 class="analysis-title">Análisis y Pronóstico (Informe Resumen)</h3>
+                     <p class="text-sm mb-3">Primera joya de la triple corona. Goodmood es sólido pero Skytree llega invicto.</p>
+                      <ul class="list-none space-y-3 text-sm">
+                         <li><i class="fas fa-star mr-2 text-turf-gold"></i><strong class="favorite">Ganador:</strong> <span class="horse-name">2 GOODMOOD (IRE)</span></li>
+                         <li><i class="fas fa-medal mr-2 text-turf-silver"></i><strong class="place-option">Colocados:</strong> <span class="horse-name">5 SKYTREE (FR)</span>, <span class="horse-name">1 GAUCIN (FR)</span></li>
+                          <li><i class="fas fa-rocket mr-2 text-turf-bronze"></i><strong class="longshot">Sorpresa:</strong> <span class="horse-name">10 YO MAURO (IRE)</span></li>
+                     </ul>
+                 </div>
+
+                 <div class="simulation-container">
+                     <button id="simulate-btn-3" class="bg-turf-rail hover:bg-opacity-80 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-3 text-sm" onclick="startSimulation(3)">
+                         <i class="fas fa-play mr-2"></i>Simular Carrera 3
+                     </button>
+                     <div id="race-track-3" class="race-track hidden">
+                         <div class="finish-line"></div>
+                     </div>
+                      <p id="winner-info-3" class="text-center mt-2 font-semibold text-turf-green hidden"></p>
+                 </div>
+                 <h4 class="text-lg font-semibold text-turf-rail mb-3 mt-6">Participantes (Programa Detallado)</h4>
+                 <div class="overflow-x-auto">
+                      <table id="participants-3" class="min-w-full bg-white rounded-lg shadow participants-table">
+                         <thead>
+                              <tr><th>Nº</th><th>Caballo</th><th>Edad</th><th>KG</th><th>Jinete</th><th>Cuadra</th><th>Entrenador</th><th>Cajón</th><th class="text-center">Últ. Act.</th></tr>
+                         </thead>
+                         <tbody>
+                            <tr onclick="showHorseModal(this, 3)"><td>1</td><td class="horse-name">GAUCIN (FR)</td><td>3a</td><td>57</td><td class="jockey-name">D. SIKOROVA</td><td>MEDITERRANEO</td><td class="trainer-name">A. SOTO</td><td class="text-center">1</td><td class="ult-act text-center">06,01,04,02,01</td></tr>
+                            <tr onclick="showHorseModal(this, 3)"><td>2</td><td class="horse-name">GOODMOOD (IRE) (8)</td><td>3a</td><td>57</td><td class="jockey-name">R. SOUSA (G. Roja)</td><td>MEDITERRANEO</td><td class="trainer-name">A. SOTO</td><td class="text-center">7</td><td class="ult-act text-center">01,03,01,03,01</td></tr>
+                            <tr onclick="showHorseModal(this, 3)"><td>3</td><td class="horse-name">METRO DUBAI (FR)</td><td>3a</td><td>57</td><td class="jockey-name">B. FAYOS</td><td>REZA PAZOOKI</td><td class="trainer-name">O. ANAYA</td><td class="text-center">8</td><td class="ult-act text-center">03,03,01,02,03</td></tr>
+                            <tr onclick="showHorseModal(this, 3)"><td>4</td><td class="horse-name">SIR EDWARD (IRE)</td><td>3a</td><td>57</td><td class="jockey-name">L. GELABERT</td><td>CORREDORES AGRUPADOS</td><td class="trainer-name">J. LOPEZ</td><td class="text-center">5</td><td class="ult-act text-center">03,NP,05,02,05</td></tr>
+                            <tr onclick="showHorseModal(this, 3)"><td>5</td><td class="horse-name">SKYTREE (FR)</td><td>3a</td><td>57</td><td class="jockey-name">V. SEGUY</td><td>SAN JOSE</td><td class="trainer-name">A. TSERETELI</td><td class="text-center">6</td><td class="ult-act text-center">01,01</td></tr>
+                            <tr onclick="showHorseModal(this, 3)"><td>6</td><td class="horse-name">SOLTAN GATSBY (FR) (8)</td><td>3a</td><td>57</td><td class="jockey-name">V. JANACEK</td><td>YEGUADA ROCK</td><td class="trainer-name">G. ARIZKORRETA</td><td class="text-center">4</td><td class="ult-act text-center">04,06,02,01,05</td></tr>
+                            <tr onclick="showHorseModal(this, 3)"><td>7</td><td class="horse-name">STAR ONE (FR)</td><td>3a</td><td>57</td><td class="jockey-name">N. DE JULIAN</td><td>ESTRELLAS DE MONTEFARO</td><td class="trainer-name">C. CERQUEIRA</td><td class="text-center">11</td><td class="ult-act text-center">05,01,07</td></tr>
+                            <tr onclick="showHorseModal(this, 3)"><td>8</td><td class="horse-name">TANAGER (GB) (8)</td><td>3a</td><td>57</td><td class="jockey-name">A. GUTIERREZ V.</td><td>EL ROQUE CANARIAS</td><td class="trainer-name">F. JIMENEZ</td><td class="text-center">3</td><td class="ult-act text-center">09,10,12,03,03</td></tr>
+                            <tr onclick="showHorseModal(this, 3)"><td>9</td><td class="horse-name">WELLINGTON PREMIER (FR) (8)</td><td>3a</td><td>57</td><td class="jockey-name">S. LE QUILLEUC</td><td>ASIER SANCHEZ</td><td class="trainer-name">M. ALONSO R.</td><td class="text-center">10</td><td class="ult-act text-center">04,04,06,01,03</td></tr>
+                            <tr onclick="showHorseModal(this, 3)"><td>10</td><td class="horse-name">YO MAURO (IRE)</td><td>3a</td><td>57</td><td class="jockey-name">R.N. VALLE</td><td>PEQUES</td><td class="trainer-name">G. ARIZKORRETA</td><td class="text-center">2</td><td class="ult-act text-center">02,02,01</td></tr>
+                            <tr onclick="showHorseModal(this, 3)"><td>11</td><td class="horse-name">YOGUI (FR)</td><td>3a</td><td>57</td><td class="jockey-name">L. MENDIZABAL</td><td>YEGUADA AGE</td><td class="trainer-name">G. ARIZKORRETA</td><td class="text-center">9</td><td class="ult-act text-center">02,04,02</td></tr>
+                         </tbody>
+                      </table>
+                 </div>
+            </div>
+
+             <div id="carrera4" class="tab-content p-4 bg-gray-50 rounded-lg shadow-inner">
+                 <h2 class="text-2xl font-bold text-turf-green mb-1">4ª Carrera: Premio Octaviano y Gonzalo Griñán</h2>
+                 <p class="mb-3 text-md text-turf-rail">(Hándicap Dividido 1ª parte) (Made in Spain) - 2.200 mts.</p>
+                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5 text-sm border-y py-3 bg-white rounded">
+                    <div class="flex items-center"><i class="fas fa-clock mr-2 text-blue-500"></i> <strong>Hora:</strong> 13:15 h.</div>
+                    <div class="flex items-center"><i class="fas fa-euro-sign mr-2 text-yellow-600"></i> <strong>Premio:</strong> 11.050 €</div>
+                    <div class="flex items-center"><i class="fas fa-cloud-sun mr-2 text-sky-500"></i> <strong>Pista (Prevista):</strong> Buena / Bueno-Blando</div>
+                 </div>
+
+                 <div class="analysis-section mb-6">
+                     <h3 class="analysis-title">Análisis y Pronóstico (Informe Resumen)</h3>
+                     <p class="text-sm mb-3">Handicap de buen nivel. Trade Honor llega con seguidos segundos puestos.</p>
+                      <ul class="list-none space-y-3 text-sm">
+                         <li><i class="fas fa-star mr-2 text-turf-gold"></i><strong class="favorite">Ganador:</strong> <span class="horse-name">4 TRADE HONOUR (FR)</span></li>
+                         <li><i class="fas fa-medal mr-2 text-turf-silver"></i><strong class="place-option">Colocados:</strong> <span class="horse-name">6 LUNA ROSSA</span>, <span class="horse-name">2 RUESGA (IRE)</span></li>
+                          <li><i class="fas fa-rocket mr-2 text-turf-bronze"></i><strong class="longshot">Sorpresa:</strong> <span class="horse-name">12 XERAC (IRE)</span></li>
+                     </ul>
+                 </div>
+
+                 <div class="simulation-container">
+                     <button id="simulate-btn-4" class="bg-turf-rail hover:bg-opacity-80 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-3 text-sm" onclick="startSimulation(4)">
+                         <i class="fas fa-play mr-2"></i>Simular Carrera 4
+                     </button>
+                     <div id="race-track-4" class="race-track hidden">
+                         <div class="finish-line"></div>
+                     </div>
+                      <p id="winner-info-4" class="text-center mt-2 font-semibold text-turf-green hidden"></p>
+                 </div>
+                 <h4 class="text-lg font-semibold text-turf-rail mb-3 mt-6">Participantes (Programa Detallado)</h4>
+                 <div class="overflow-x-auto">
+                      <table id="participants-4" class="min-w-full bg-white rounded-lg shadow participants-table">
+                         <thead>
+                              <tr><th>Nº</th><th>Caballo</th><th>Edad</th><th>KG</th><th>Jinete</th><th>Cuadra</th><th>Entrenador</th><th>Cajón</th><th class="text-center">Últ. Act.</th></tr>
+                         </thead>
+                         <tbody>
+                            <tr onclick="showHorseModal(this, 4)"><td>1</td><td class="horse-name">MONEYMAN (GB)</td><td>6a</td><td>63</td><td class="jockey-name">A. GUTIERREZ V.</td><td>BABIECA</td><td class="trainer-name">J.L. MAROTO</td><td class="text-center">10</td><td class="ult-act text-center">NP,NP,03,02,08</td></tr>
+                            <tr onclick="showHorseModal(this, 4)"><td>2</td><td class="horse-name">RUESGA (IRE)</td><td>4a</td><td>61,5</td><td class="jockey-name">V.M. VALENZUELA</td><td>ORO</td><td class="trainer-name">A. TSERETELI</td><td class="text-center">1</td><td class="ult-act text-center">06,01,01,04,03</td></tr>
+                            <tr onclick="showHorseModal(this, 4)"><td>3</td><td class="horse-name">VEREMOS (GB)</td><td>6a</td><td>61</td><td class="jockey-name">B. FAYOS</td><td>AFRICA</td><td class="trainer-name">J.M. OSORIO</td><td class="text-center">8</td><td class="ult-act text-center">07,08,05,03,03</td></tr>
+                            <tr onclick="showHorseModal(this, 4)"><td>4</td><td class="horse-name">TRADE HONOUR (FR)</td><td>4a</td><td>59,5</td><td class="jockey-name">V. JANACEK</td><td>PINNA FIDELIS</td><td class="trainer-name">G. ARIZKORRETA</td><td class="text-center">11</td><td class="ult-act text-center">06,04,01,02,02</td></tr>
+                            <tr onclick="showHorseModal(this, 4)"><td>5</td><td class="horse-name">NAT IMPACT (GB) (8)</td><td>4a</td><td>59,5</td><td class="jockey-name">D. SIKOROVA (58,5) (G. Blanca)</td><td>AFRICA</td><td class="trainer-name">J.M. OSORIO</td><td class="text-center">4</td><td class="ult-act text-center">05,07,05,07</td></tr>
+                            <tr onclick="showHorseModal(this, 4)"><td>6</td><td class="horse-name">LUNA ROSSA</td><td>4a</td><td>59</td><td class="jockey-name">R. SOUSA</td><td>DELTA</td><td class="trainer-name">A. TSERETELI</td><td class="text-center">12</td><td class="ult-act text-center">02,01,02,03,04</td></tr>
+                            <tr onclick="showHorseModal(this, 4)"><td>7</td><td class="horse-name">CHENER (FR) (3)</td><td>5a</td><td>58,5</td><td class="jockey-name">J. GELABERT</td><td>PALCO 7</td><td class="trainer-name">J.L. MAROTO</td><td class="text-center">6</td><td class="ult-act text-center">09,04,03,06,01</td></tr>
+                            <tr onclick="showHorseModal(this, 4)"><td>8</td><td class="horse-name">FLOREA (FR) (a)(8)</td><td>4a</td><td>57,5</td><td class="jockey-name">L. MENDIZABAL</td><td>COPIHUE</td><td class="trainer-name">J. HORCAJADA</td><td class="text-center">3</td><td class="ult-act text-center">03,02,01,04,07</td></tr>
+                            <tr onclick="showHorseModal(this, 4)"><td>9</td><td class="horse-name">SUN KING (IRE)</td><td>6a</td><td>57,5</td><td class="jockey-name">V. ALONSO V. (56,5)</td><td>BORRIQUITO COMO TURF</td><td class="trainer-name">CH. DELCHER</td><td class="text-center">7</td><td class="ult-act text-center">NP,03,03,NP,04</td></tr>
+                            <tr onclick="showHorseModal(this, 4)"><td>10</td><td class="horse-name">MYSTERY LAND (3)</td><td>4a</td><td>57,5</td><td class="jockey-name">C. PEREZ (55,5)</td><td>BOLAK</td><td class="trainer-name">M. AUGELLI</td><td class="text-center">5</td><td class="ult-act text-center">04,NP,05,07,01</td></tr>
+                            <tr onclick="showHorseModal(this, 4)"><td>11</td><td class="horse-name">TRAMPAS (5)(8)</td><td>4a</td><td>55</td><td class="jockey-name">A. MARTINEZ (54)</td><td>YEPES MONTANCHEZ</td><td class="trainer-name">E. ARGUINZONES</td><td class="text-center">2</td><td class="ult-act text-center">08,17,09,09,07</td></tr>
+                            <tr onclick="showHorseModal(this, 4)"><td>12</td><td class="horse-name">XERAC (IRE) (5)</td><td>4a</td><td>54,5</td><td class="jockey-name">R.N. VALLE</td><td>YEGUADA AGE</td><td class="trainer-name">G. ARIZKORRETA</td><td class="text-center">9</td><td class="ult-act text-center">06,04,03,03,05</td></tr>
+                         </tbody>
+                      </table>
+                 </div>
+            </div>
+
+             <div id="carrera5" class="tab-content p-4 bg-gray-50 rounded-lg shadow-inner">
+                 <h2 class="text-2xl font-bold text-turf-green mb-1">5ª Carrera: Gran Premio Valderas (Poule de Potrancas)</h2>
+                 <p class="mb-3 text-md text-turf-rail">(Categoría A) (Made in Spain criadores) - 1.600 mts.</p>
+                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5 text-sm border-y py-3 bg-white rounded">
+                    <div class="flex items-center"><i class="fas fa-clock mr-2 text-blue-500"></i> <strong>Hora:</strong> 13:50 h.</div>
+                    <div class="flex items-center"><i class="fas fa-euro-sign mr-2 text-yellow-600"></i> <strong>Premio:</strong> 51.000 €</div>
+                    <div class="flex items-center"><i class="fas fa-cloud-sun mr-2 text-sky-500"></i> <strong>Pista (Prevista):</strong> Buena / Bueno-Blando</div>
+                 </div>
+
+                 <div class="analysis-section mb-6">
+                     <h3 class="analysis-title">Análisis y Pronóstico (Informe Resumen)</h3>
+                     <p class="text-sm mb-3">Las mejores potrancas del año. Leyhaimur es la más regular.</p>
+                      <ul class="list-none space-y-3 text-sm">
+                         <li><i class="fas fa-star mr-2 text-turf-gold"></i><strong class="favorite">Ganador:</strong> <span class="horse-name">8 LEVHAIMUR (GB)</span></li>
+                         <li><i class="fas fa-medal mr-2 text-turf-silver"></i><strong class="place-option">Colocados:</strong> <span class="horse-name">5 FICTION (GB)</span>, <span class="horse-name">10 OCTANS</span></li>
+                          <li><i class="fas fa-rocket mr-2 text-turf-bronze"></i><strong class="longshot">Sorpresa:</strong> <span class="horse-name">4 ECOLOGY (IRE)</span></li>
+                     </ul>
+                 </div>
+
+                 <div class="simulation-container">
+                     <button id="simulate-btn-5" class="bg-turf-rail hover:bg-opacity-80 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-3 text-sm" onclick="startSimulation(5)">
+                         <i class="fas fa-play mr-2"></i>Simular Carrera 5
+                     </button>
+                     <div id="race-track-5" class="race-track hidden">
+                         <div class="finish-line"></div>
+                     </div>
+                      <p id="winner-info-5" class="text-center mt-2 font-semibold text-turf-green hidden"></p>
+                 </div>
+                 <h4 class="text-lg font-semibold text-turf-rail mb-3 mt-6">Participantes (Programa Detallado)</h4>
+                 <div class="overflow-x-auto">
+                      <table id="participants-5" class="min-w-full bg-white rounded-lg shadow participants-table">
+                         <thead>
+                              <tr><th>Nº</th><th>Caballo</th><th>Edad</th><th>KG</th><th>Jinete</th><th>Cuadra</th><th>Entrenador</th><th>Cajón</th><th class="text-center">Últ. Act.</th></tr>
+                         </thead>
+                         <tbody>
+                            <tr onclick="showHorseModal(this, 5)"><td>1</td><td class="horse-name">ANNIE'S SONG (FR) (4)(8)</td><td>3a</td><td>57</td><td class="jockey-name">H. MOUESAN</td><td>ZAR</td><td class="trainer-name">C. HUESA</td><td class="text-center">5</td><td class="ult-act text-center">06,03,07,07</td></tr>
+                            <tr onclick="showHorseModal(this, 5)"><td>2</td><td class="horse-name">BATED DREAM (IRE)</td><td>3a</td><td>57</td><td class="jockey-name">D. SIKOROVA</td><td>SPORT HG</td><td class="trainer-name">O. ANAYA</td><td class="text-center">1</td><td class="ult-act text-center">04,01,01,06,05</td></tr>
+                            <tr onclick="showHorseModal(this, 5)"><td>3</td><td class="horse-name">CASTING A SPELL (IRE) (8)</td><td>3a</td><td>57</td><td class="jockey-name">N. DE JULIAN</td><td>GIULIA</td><td class="trainer-name">M. AUGELLI</td><td class="text-center">9</td><td class="ult-act text-center">03,04,03,06,03</td></tr>
+                            <tr onclick="showHorseModal(this, 5)"><td>4</td><td class="horse-name">ECOLOGY (IRE)</td><td>3a</td><td>57</td><td class="jockey-name">B. FAYOS</td><td>FRIENDS & HORSES</td><td class="trainer-name">M. AUGELLI</td><td class="text-center">13</td><td class="ult-act text-center">01,01,08,08,06</td></tr>
+                            <tr onclick="showHorseModal(this, 5)"><td>5</td><td class="horse-name">FICTION (GB)</td><td>3a</td><td>57</td><td class="jockey-name">R. SOUSA</td><td>MEDITERRANEO</td><td class="trainer-name">A. TSERETELI</td><td class="text-center">2</td><td class="ult-act text-center">07,02,01,01,01</td></tr>
+                            <tr onclick="showHorseModal(this, 5)"><td>6</td><td class="horse-name">GHOST RUN (GB)</td><td>3a</td><td>57</td><td class="jockey-name">L. MENDIZABAL</td><td>YEGUADA ROCIO</td><td class="trainer-name">G. ARIZKORRETA</td><td class="text-center">8</td><td class="ult-act text-center">10,07,01,08,04</td></tr>
+                            <tr onclick="showHorseModal(this, 5)"><td>7</td><td class="horse-name">LADY COCODY (FR)</td><td>3a</td><td>57</td><td class="jockey-name">S. LE QUILLEUC</td><td>AFFSL</td><td class="trainer-name">F. RODRIGUEZ</td><td class="text-center">11</td><td class="ult-act text-center">05,01,03,02</td></tr>
+                            <tr onclick="showHorseModal(this, 5)"><td>8</td><td class="horse-name">LEVHAIMUR (GB) (4)</td><td>3a</td><td>57</td><td class="jockey-name">A. GUTIERREZ V.</td><td>JCA RACING</td><td class="trainer-name">G. ARIZKORRETA</td><td class="text-center">7</td><td class="ult-act text-center">02,02,01,04,01</td></tr>
+                            <tr onclick="showHorseModal(this, 5)"><td>9</td><td class="horse-name">MARMARA (GB)</td><td>3a</td><td>57</td><td class="jockey-name">R.N. VALLE</td><td>REZA PAZOOKI</td><td class="trainer-name">O. ANAYA</td><td class="text-center">6</td><td class="ult-act text-center">07,01,02</td></tr>
+                            <tr onclick="showHorseModal(this, 5)"><td>10</td><td class="horse-name">OCTANS</td><td>3a</td><td>57</td><td class="jockey-name">V. JANACEK (G. Verde)</td><td>YEGUADA ROCIO</td><td class="trainer-name">G. ARIZKORRETA</td><td class="text-center">3</td><td class="ult-act text-center">02,02,01,01,05</td></tr>
+                            <tr onclick="showHorseModal(this, 5)"><td>11</td><td class="horse-name">THEYKNOWWEKNOW (IRE)</td><td>3a</td><td>57</td><td class="jockey-name">V. SEGUY</td><td>SAN JOSE</td><td class="trainer-name">A. TSERETELI</td><td class="text-center">12</td><td class="ult-act text-center">05,01,02,02</td></tr>
+                            <tr onclick="showHorseModal(this, 5)"><td>12</td><td class="horse-name">VOZPORNOCHE (IRE)</td><td>3a</td><td>57</td><td class="jockey-name">J. GELABERT</td><td>BERING</td><td class="trainer-name">A. TSERETELI</td><td class="text-center">4</td><td class="ult-act text-center">03,01,03,01</td></tr>
+                            <tr onclick="showHorseModal(this, 5)"><td>13</td><td class="horse-name">ZAMBRA (FR)</td><td>3a</td><td>57</td><td class="jockey-name">G. TROLLEY DE PREVAUX</td><td>LAC INTERNACIONAL</td><td class="trainer-name">A. SOTO</td><td class="text-center">10</td><td class="ult-act text-center">03,06,04,04,01</td></tr>
+                         </tbody>
+                      </table>
+                 </div>
+            </div>
+
+             <div id="carrera6" class="tab-content p-4 bg-gray-50 rounded-lg shadow-inner">
+                 <h2 class="text-2xl font-bold text-turf-green mb-1">6ª Carrera: Premio Realeza</h2>
+                 <p class="mb-3 text-md text-turf-rail">(Categoría C) (Hándicap Ref: 3a:45,5; 4a+:41) (Made in Spain) - 1.000 mts. Línea Recta</p>
+                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5 text-sm border-y py-3 bg-white rounded">
+                    <div class="flex items-center"><i class="fas fa-clock mr-2 text-blue-500"></i> <strong>Hora:</strong> 14:25 h.</div>
+                    <div class="flex items-center"><i class="fas fa-euro-sign mr-2 text-yellow-600"></i> <strong>Premio:</strong> 13.600 €</div>
+                    <div class="flex items-center"><i class="fas fa-cloud-sun mr-2 text-sky-500"></i> <strong>Pista (Prevista):</strong> Buena / Bueno-Blando</div>
+                 </div>
+
+                 <div class="analysis-section mb-6">
+                     <h3 class="analysis-title">Análisis y Pronóstico (Informe Resumen)</h3>
+                     <p class="text-sm mb-3">Sprint puro. Assembly Call llega imparable y Be True siempre cumple.</p>
+                      <ul class="list-none space-y-3 text-sm">
+                         <li><i class="fas fa-star mr-2 text-turf-gold"></i><strong class="favorite">Ganador:</strong> <span class="horse-name">3 ASSEMBLY CALL (IRE)</span></li>
+                         <li><i class="fas fa-medal mr-2 text-turf-silver"></i><strong class="place-option">Colocados:</strong> <span class="horse-name">7 BE TRUE (FR)</span>, <span class="horse-name">2 ORIGEN (IRE)</span></li>
+                          <li><i class="fas fa-rocket mr-2 text-turf-bronze"></i><strong class="longshot">Sorpresa:</strong> <span class="horse-name">9 SIR GEOFF MORGAN (IRE)</span></li>
+                     </ul>
+                 </div>
+
+                 <div class="simulation-container">
+                     <button id="simulate-btn-6" class="bg-turf-rail hover:bg-opacity-80 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-3 text-sm" onclick="startSimulation(6)">
+                         <i class="fas fa-play mr-2"></i>Simular Carrera 6
+                     </button>
+                     <div id="race-track-6" class="race-track hidden">
+                         <div class="finish-line"></div>
+                     </div>
+                      <p id="winner-info-6" class="text-center mt-2 font-semibold text-turf-green hidden"></p>
+                 </div>
+                 <h4 class="text-lg font-semibold text-turf-rail mb-3 mt-6">Participantes (Programa Detallado)</h4>
+                 <div class="overflow-x-auto">
+                      <table id="participants-6" class="min-w-full bg-white rounded-lg shadow participants-table">
+                         <thead>
+                              <tr><th>Nº</th><th>Caballo</th><th>Edad</th><th>KG</th><th>Jinete</th><th>Cuadra</th><th>Entrenador</th><th>Cajón</th><th class="text-center">Últ. Act.</th></tr>
+                         </thead>
+                         <tbody>
+                            <tr onclick="showHorseModal(this, 6)"><td>1</td><td class="horse-name">PARTING GLASS (IRE) (8)</td><td>5a</td><td>63</td><td class="jockey-name">B. FAYOS</td><td>ORO MOLIO</td><td class="trainer-name">O. ANAYA</td><td class="text-center">8</td><td class="ult-act text-center">09,06,02,01,06</td></tr>
+                            <tr onclick="showHorseModal(this, 6)"><td>2</td><td class="horse-name">ORIGEN (IRE) (8)</td><td>4a</td><td>61</td><td class="jockey-name">J. GELABERT</td><td>SALVADOR MARQUEZ</td><td class="trainer-name">O. ANAYA</td><td class="text-center">7</td><td class="ult-act text-center">04,01,NP,01,02</td></tr>
+                            <tr onclick="showHorseModal(this, 6)"><td>3</td><td class="horse-name">ASSEMBLY CALL (IRE)</td><td>4a</td><td>60,5</td><td class="jockey-name">J.C. DIESTRA</td><td>MALLOW GRAN CANARIA</td><td class="trainer-name">O. ANAYA</td><td class="text-center">5</td><td class="ult-act text-center">01,10,01,01,02</td></tr>
+                            <tr onclick="showHorseModal(this, 6)"><td>4</td><td class="horse-name">ABACUR (FR)</td><td>4a</td><td>60</td><td class="jockey-name">V. JANACEK</td><td>SAN JOSE</td><td class="trainer-name">A. TSERETELI</td><td class="text-center">3</td><td class="ult-act text-center">05,01,03,03</td></tr>
+                            <tr onclick="showHorseModal(this, 6)"><td>5</td><td class="horse-name">JUNGLE FEVER (IRE) (8)</td><td>5a</td><td>59,5</td><td class="jockey-name">R.N. VALLE</td><td>TEIVAN TENERIFE</td><td class="trainer-name">O. ANAYA</td><td class="text-center">1</td><td class="ult-act text-center">04,05,02,01,04</td></tr>
+                            <tr onclick="showHorseModal(this, 6)"><td>6</td><td class="horse-name">ALL IS FAIR (IRE)</td><td>4a</td><td>59</td><td class="jockey-name">V.M. VALENZUELA</td><td>CARBIAL</td><td class="trainer-name">O. ANAYA</td><td class="text-center">4</td><td class="ult-act text-center">07,04,09,01,08</td></tr>
+                            <tr onclick="showHorseModal(this, 6)"><td>7</td><td class="horse-name">BE TRUE (FR) (5)(8)</td><td>4a</td><td>58,5</td><td class="jockey-name">R. SOUSA</td><td>MEDITERRANEO</td><td class="trainer-name">A. SOTO</td><td class="text-center">10</td><td class="ult-act text-center">01,02,03,07,02</td></tr>
+                            <tr onclick="showHorseModal(this, 6)"><td>8</td><td class="horse-name">FRED ON FIRE (IRE)</td><td>3a</td><td>55</td><td class="jockey-name">D. SIKOROVA (G. Roja)</td><td>ORO MOLIO</td><td class="trainer-name">O. ANAYA</td><td class="text-center">9</td><td class="ult-act text-center">08,04,01,11,12</td></tr>
+                            <tr onclick="showHorseModal(this, 6)"><td>9</td><td class="horse-name">SIR GEOFF MORGAN (IRE)</td><td>3a</td><td>52</td><td class="jockey-name">C. PEREZ</td><td>SOÑADOR</td><td class="trainer-name">B. RAMA</td><td class="text-center">2</td><td class="ult-act text-center">07,01,01,09,07</td></tr>
+                            <tr onclick="showHorseModal(this, 6)"><td>10</td><td class="horse-name">BERSERKER EXTREM</td><td>4a</td><td>52</td><td class="jockey-name">V. ALONSO V.</td><td>HARAS EXTREM</td><td class="trainer-name">A. GOMEZ</td><td class="text-center">6</td><td class="ult-act text-center">06,05,05,16,07</td></tr>
+                         </tbody>
+                      </table>
+                 </div>
+            </div>
+
+            <div id="paddock" class="tab-content p-4 bg-gray-50 rounded-lg shadow-inner">
+                 <h2 class="text-2xl font-bold text-turf-green mb-4"><i class="fas fa-binoculars mr-2"></i>Guía de Observación en el Paddock (Informe Resumen)</h2>
+                 <p class="mb-4 text-sm">Consejos clave para evaluar a los caballos antes de la carrera:</p>
+                 <ul class="list-disc list-inside space-y-2 text-md text-gray-700">
+                     <li><strong>Piel brillante y musculatura definida:</strong> indica buena forma.</li>
+                     <li><strong>Sudor leve (sin espuma):</strong> energía positiva. Evita caballos empapados.</li>
+                     <li><strong>Caminar elástico y seguro:</strong> agilidad sin rigidez.</li>
+                     <li><strong>Orejas móviles y mirada atenta:</strong> concentrado pero sin estrés.</li>
+                     <li><strong>Comportamiento tranquilo con el mozo:</strong> buena actitud previa a competir.</li>
+                 </ul>
+                  <p class="mt-4 text-xs italic text-gray-600">Combina estas observaciones con el análisis de la forma y los datos del programa.</p>
+             </div>
+
+            <div id="leyenda" class="tab-content p-4 bg-gray-50 rounded-lg shadow-inner">
+                  <h2 class="text-2xl font-bold text-turf-green mb-4"><i class="fas fa-book-open mr-2"></i>Leyenda y Tipos de Apuesta</h2>
+                  <div class="grid md:grid-cols-2 gap-6">
+                      <div>
+                          <h3 class="text-lg font-semibold text-turf-rail mb-2">Símbolos y Abreviaturas</h3>
+                          <div class="space-y-3 text-sm">
+                              <p><strong>Equipamiento:</strong></p>
+                              <ul class="list-disc list-inside ml-4">
+                                 <li><strong>(3):</strong> Correrá con carrilleras.</li>
+                                 <li><strong>(4):</strong> Utilizará tapones.</li>
+                                 <li><strong>(5):</strong> Correrá con anteojeras.</li>
+                                 <li><strong>(8):</strong> Correrá con la lengua atada.</li>
+                              </ul>
+                               <p><strong>Jinetes y Pesos:</strong></p>
+                              <ul class="list-disc list-inside ml-4">
+                                 <li><strong>(X):</strong> Peso real del jockey si hay descargo/recargo. Ej: <span class="jockey-name">G. ARGUINZONES (60)</span>.</li>
+                                 <li><strong>(G. Color):</strong> Color de la gorra. Ej: <span class="jockey-name">D. SIKOROVA (G. Blanca)</span>.</li>
+                              </ul>
+                               <p><strong>Otros:</strong></p>
+                               <ul class="list-disc list-inside ml-4">
+                                 <li><strong>(a):</strong> Caballo asimilado.</li>
+                                 <li><strong>KG:</strong> Peso asignado.</li>
+                                 <li><strong>Cajón:</strong> Puesto de salida.</li>
+                                 <li><strong>Últ. Act.:</strong> Últimas actuaciones (izq.=reciente).</li>
+                                 <li><strong>NP:</strong> No Participó.</li>
+                                 <li><strong>C, Qdo, Ddo, Dto, Desc:</strong> Incidencias (Caído, Quedado, Desmontado, Distanciado, Descalificado).</li>
+                                 <li><strong>Cat.:</strong> Categoría (A=Mayor nivel).</li>
+                              </ul>
+                          </div>
+                      </div>
+                      <div>
+                          <h3 class="text-lg font-semibold text-turf-rail mb-2">Tipos de Apuesta Comunes</h3>
+                           <ul class="list-none space-y-3 text-sm">
+                               <li><strong><i class="fas fa-horse mr-1 text-turf-gold"></i> Ganador:</strong> Apuesta al caballo que crees que ganará la carrera. Es la apuesta más sencilla.</li>
+                               <li><strong><i class="fas fa-medal mr-1 text-turf-silver"></i> Colocado:</strong> Apuesta a que un caballo terminará entre los primeros puestos (normalmente 1º, 2º o 3º, dependiendo del número de participantes). Menor riesgo que 'Ganador', pero menor dividendo.</li>
+                               <li><strong><i class="fas fa-arrows-alt-h mr-1 text-blue-500"></i> Gemela:</strong> Apuesta a los dos caballos que terminarán 1º y 2º. Hay dos tipos:
+                                   <ul class="list-disc list-inside ml-4 mt-1">
+                                       <li><strong>Exacta:</strong> Debes acertar el orden exacto (1º y 2º).</li>
+                                       <li><strong>Reversible/Doble:</strong> Acertar los dos primeros sin importar el orden.</li>
+                                   </ul>
+                               </li>
+                               <li><strong><i class="fas fa-cubes mr-1 text-green-600"></i> Trío:</strong> Apuesta a los tres caballos que terminarán 1º, 2º y 3º en el orden exacto. Es más difícil, pero ofrece dividendos más altos.</li>
+                               <li><strong><i class="fas fa-layer-group mr-1 text-purple-600"></i> Pick 4 / Quíntuple Plus:</strong> Apuestas combinadas que requieren acertar los ganadores de varias carreras consecutivas (4 o 5 respectivamente). Muy difíciles, pero con botes potencialmente muy grandes.</li>
+                           </ul>
+                           <p class="text-xs italic mt-3 text-gray-600">Consulta siempre las condiciones específicas de cada apuesta en las taquillas o plataformas oficiales del hipódromo.</p>
+                      </div>
+                  </div>
+             </div>
+
+        </div> <footer>
+            <p>Guía desarrollada por: <strong>Adrián Alcaide</strong></p>
+            <p>Basado en el programa oficial y el informe resumen del Hipódromo de la Zarzuela para el 27/04/2025.</p>
+            <p class="text-xs mt-1">Recuerda que las carreras de caballos conllevan riesgos. Apuesta con responsabilidad.</p>
+        </footer>
+
+    </div> <div id="horseModal" class="modal-overlay" onclick="closeModalOutside(event)">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeModal()">&times;</button>
+            <h3 id="modalHorseName" class="modal-horse-title">Nombre del Caballo</h3>
+            <div class="modal-detail-grid">
+                <div class="modal-detail-item"><strong>Número:</strong> <span id="modalHorseNum"></span></div>
+                <div class="modal-detail-item"><strong>Edad:</strong> <span id="modalHorseAge"></span></div>
+                <div class="modal-detail-item"><strong>Peso (KG):</strong> <span id="modalHorseKg"></span></div>
+                <div class="modal-detail-item"><strong>Jinete:</strong> <span id="modalHorseJockey"></span></div>
+                <div class="modal-detail-item"><strong>Cuadra:</strong> <span id="modalHorseCuadra"></span></div>
+                <div class="modal-detail-item"><strong>Entrenador:</strong> <span id="modalHorseTrainer"></span></div>
+                <div class="modal-detail-item"><strong>Cajón:</strong> <span id="modalHorseCajon"></span></div>
+                <div class="modal-detail-item"><strong>Últ. Act.:</strong> <span id="modalHorseUltAct" class="ult-act"></span></div>
+                <div class="modal-detail-item modal-equipamiento" style="grid-column: 1 / -1;">
+                     <strong>Equipamiento:</strong> <span id="modalHorseEquip"></span>
+                </div>
+            </div>
+             <div id="modalPickStatus" class="modal-pick-status hidden">
+                </div>
+             <div id="modalAnalysisSection" class="modal-analysis">
+                 <h4 class="modal-analysis-title">Análisis Detallado</h4>
+                 <p id="modalAnalysisText" class="modal-analysis-text"></p>
+             </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- Lógica para Pestañas ---
+        function changeTab(event, tabId) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('tab-active', 'border-b-4', 'border-turf-green');
+                tab.classList.add('tab-inactive');
+            });
+            const selectedContent = document.getElementById(tabId);
+            if (selectedContent) selectedContent.classList.add('active');
+            event.currentTarget.classList.remove('tab-inactive');
+            event.currentTarget.classList.add('tab-active', 'border-b-4', 'border-turf-green');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const firstTabButton = document.querySelector('.tab');
+            if (firstTabButton) {
+                 firstTabButton.classList.remove('tab-inactive');
+                 firstTabButton.classList.add('tab-active', 'border-b-4', 'border-turf-green');
+                 const firstTabContentId = firstTabButton.getAttribute('onclick').match(/'([^']+)'/)[1];
+                 const firstTabContent = document.getElementById(firstTabContentId);
+                 if(firstTabContent) firstTabContent.classList.add('active');
+            }
+            document.querySelectorAll('.participants-table tbody tr').forEach(row => {
+                row.addEventListener('click', function() {
+                    const tableId = this.closest('table').id;
+                    const raceNum = tableId.split('-')[1];
+                    showHorseModal(this, parseInt(raceNum, 10));
+                });
+            });
+        });
+
+        // --- Lógica para Simulación ---
+        let raceIntervals = {};
+
+        // Función para obtener el estatus del pick (Necesaria ANTES de usarla en getHorsesForRace y startSimulation)
+         function getPickStatus(raceNum, horseName) {
+            const picks = racePicks[raceNum];
+            // Limpiar nombre del caballo para comparación
+            const normalizedHorseName = horseName.replace(/\s*\((FR|IRE|GB|a|3|4|5|8)\)/gi, '').trim();
+
+            if (!picks) return { status: 'none', text: '', class: 'pick-none' }; // Texto vacío para 'none'
+
+            // Función auxiliar para comparar nombres ignorando sufijos entre paréntesis
+            const compareNames = (pickName, currentName) => {
+                 const normalizedPickName = pickName.replace(/\s*\((FR|IRE|GB|a|3|4|5|8)\)/gi, '').trim();
+                 return normalizedPickName === currentName;
+            };
+
+            if (compareNames(picks.ganador, normalizedHorseName)) return { status: 'ganador', text: 'Pick Ganador (Informe Resumen)', class: 'pick-ganador' };
+            if (picks.colocados.some(c => compareNames(c, normalizedHorseName))) return { status: 'colocado', text: 'Pick Colocado (Informe Resumen)', class: 'pick-colocado' };
+            if (compareNames(picks.sorpresa, normalizedHorseName)) return { status: 'sorpresa', text: 'Pick Sorpresa (Informe Resumen)', class: 'pick-sorpresa' };
+
+            return { status: 'none', text: '', class: 'pick-none' }; // Texto vacío para 'none'
+        }
+
+
+        function getHorsesForRace(raceNumber) {
+            const tableId = `participants-${raceNumber}`;
+            const table = document.getElementById(tableId);
+            if (!table) return [];
+            const horses = [];
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const numberCell = row.querySelector('td:first-child');
+                const nameCell = row.querySelector('td:nth-child(2)');
+                if (numberCell && nameCell) {
+                     const horseNum = parseInt(numberCell.textContent.trim(), 10);
+                     const horseName = nameCell.textContent.trim();
+                     if (!isNaN(horseNum)) {
+                         const pick = getPickStatus(raceNumber, horseName); // Obtener pick para asignar velocidad base
+                         let baseSpeed;
+                         switch (pick.status) {
+                             case 'ganador': baseSpeed = 1.25; break; // Más rápido
+                             case 'colocado': baseSpeed = 1.15; break; // Rápido
+                             case 'sorpresa': baseSpeed = 1.05; break; // Ligeramente más rápido
+                             default: baseSpeed = 1.0; break; // Velocidad estándar
+                         }
+                         horses.push({ number: horseNum, name: horseName, baseSpeed: baseSpeed });
+                     }
+                }
+            });
+            return horses; // Devuelve array de objetos {number, name, baseSpeed}
+        }
+
+
+        function startSimulation(raceNumber) {
+            const trackId = `race-track-${raceNumber}`;
+            const track = document.getElementById(trackId);
+            const winnerInfoId = `winner-info-${raceNumber}`;
+            const winnerInfo = document.getElementById(winnerInfoId);
+            const button = document.getElementById(`simulate-btn-${raceNumber}`);
+
+            if (!track || !winnerInfo || !button) return;
+
+            if (raceIntervals[raceNumber]) {
+                clearInterval(raceIntervals[raceNumber]);
+            }
+            track.innerHTML = '<div class="finish-line"></div>';
+            winnerInfo.classList.add('hidden');
+            winnerInfo.textContent = '';
+            track.classList.remove('hidden');
+            button.disabled = true;
+
+            const horsesData = getHorsesForRace(raceNumber);
+             if (horsesData.length === 0) {
+                winnerInfo.textContent = 'No se encontraron participantes para simular.';
+                winnerInfo.classList.remove('hidden');
+                button.disabled = false;
+                return;
+            }
+
+            const horseElements = [];
+            const trackWidth = track.offsetWidth - 40;
+            const finishLinePos = trackWidth + 10;
+
+            horsesData.forEach((horseData, index) => {
+                const horseElement = document.createElement('div');
+                horseElement.classList.add('horse-runner');
+                horseElement.textContent = horseData.number;
+                horseElement.dataset.number = horseData.number;
+                horseElement.dataset.color = (horseData.number % 16) + 1;
+                const totalHeight = track.offsetHeight - 20;
+                const horseHeight = 25;
+                const maxIndex = horsesData.length - 1;
+                // Asegurar espaciado correcto incluso con pocos caballos
+                const spacing = horsesData.length > 1 ? (totalHeight - (horsesData.length * horseHeight)) / (horsesData.length -1) : 0;
+                const topPosition = 10 + index * (horseHeight + spacing);
+
+                horseElement.style.top = `${Math.max(10, Math.min(topPosition, totalHeight + 10 - horseHeight))}px`;
+                horseElement.style.transform = `translateX(0px)`;
+                track.appendChild(horseElement);
+                horseElements.push({
+                    element: horseElement,
+                    number: horseData.number,
+                    position: 10,
+                    baseSpeed: horseData.baseSpeed, // Usar la velocidad base asignada
+                    // Factor aleatorio más pequeño para que la velocidad base pese más
+                    randomFactor: Math.random() * 0.2 + 0.9 // Rango aleatorio (0.9 a 1.1)
+                });
+            });
+
+            let winnerDeclared = false;
+
+            raceIntervals[raceNumber] = setInterval(() => {
+                if (winnerDeclared) {
+                     clearInterval(raceIntervals[raceNumber]);
+                     button.disabled = false;
+                     return;
+                }
+                let maxPosition = 0;
+                horseElements.forEach(horse => {
+                    if (horse.position < finishLinePos) {
+                        // Mover usando baseSpeed y un factor aleatorio más controlado
+                        horse.position += horse.baseSpeed * horse.randomFactor * (Math.random() * 0.15 + 0.925); // Variación por frame aún menor
+                        horse.element.style.transform = `translateX(${Math.min(horse.position - 10, trackWidth)}px)`;
+                        if (horse.position >= finishLinePos && !winnerDeclared) {
+                            winnerDeclared = true;
+                            winnerInfo.textContent = `¡Ganador Simulado: Caballo #${horse.number}!`;
+                            winnerInfo.classList.remove('hidden');
+                             setTimeout(() => {
+                                clearInterval(raceIntervals[raceNumber]);
+                                button.disabled = false;
+                             }, 1000);
+                        }
+                    }
+                    if (horse.position > maxPosition) maxPosition = horse.position;
+                });
+            }, 30); // Intervalo para animación fluida
+        }
+
+        // --- Lógica para el Modal ---
+        const racePicks = {
+            1: { ganador: "Spanish Ruler", colocados: ["Viking City", "Sofunny"], sorpresa: "Uraba" },
+            2: { ganador: "Alhaurin", colocados: ["Tara Road", "Eternal Sands"], sorpresa: "Kamara" },
+            3: { ganador: "Goodmood", colocados: ["Skytree", "Gaucin"], sorpresa: "Yo Mauro" },
+            4: { ganador: "Trade Honour", colocados: ["Luna Rossa", "Ruesga"], sorpresa: "Xerac" },
+            5: { ganador: "Levhaimur", colocados: ["Fiction", "Octans"], sorpresa: "Ecology" }, // Corregido nombre
+            6: { ganador: "Assembly Call", colocados: ["Be True", "Origen"], sorpresa: "Sir Geoff Morgan" }
+        };
+
+        const equipamientoMap = {
+            '(3)': 'Carrilleras', '(4)': 'Tapones', '(5)': 'Anteojeras',
+            '(8)': 'Lengua Atada', '(a)': 'Asimilado'
+        };
+
+        // Objeto con el análisis detallado extraído del PDF "Análisis de caballos_ La Zarzuela.pdf"
+         const horseAnalysisData = {
+             1: { // Carrera 1
+                1: "Caballo de 6 años que porta el peso máximo de la carrera (63 KG). Montado por B. Fayos, entrenado por J.C. Rosell para la cuadra Mafius. El programa no muestra actuaciones recientes. El peso elevado sugiere una valoración alta por parte del handicapper en relación a este lote. Parte desde el cajón 10.",
+                2: "Yegua de 4 años, también con 63 KG, pero con el descargo del jinete aprendiz G. Arguinzones (monta con 60 KG efectivos). Entrenada por B. Rama (Cuadra Diazmor). El programa indica uso de tapones (4) y lengua atada (8). Sin historial reciente en el programa. El peso base es alto, pero el descargo del jinete alivia la carga. Cajón 9.",
+                3: "Veterano de 9 años con 62,5 KG. Jinete N. De Julián, entrenador A. Carrasco (Cuadra Las Aguilas). Correrá con lengua atada (8). Sin actuaciones recientes listadas. Su edad y peso sugieren experiencia en este tipo de pruebas. Cajón 3, posición interior.",
+                4: "Yegua de 4 años con 62,5 KG. Monta de J. Gelabert, preparación de F. Rodríguez (Cuadra Juncalillo). Sin historial reciente en el programa. Peso en la parte alta de la tabla. Cajón 6.",
+                5: "Caballo asimilado (a) de 5 años, con 62 KG. Monta de V. Janacek, entrenamiento de J.M. Osorio (Cuadra Santa Barbara). Equipado con tapones (4) y lengua atada (8). El programa muestra una secuencia de actuaciones [02,03,NP,04,09], indicando dos colocaciones, una no participación (NP) y dos resultados más discretos. Esta secuencia es la más completa del lote según el programa. Parte desde un cajón exterior (14).",
+                6: "Cuatro años, 62 KG. Jinete J.C. Diestra, entrenador A. Tsereteli (Cuadra Hercules y Fallas). Correrá con anteojeras (5). Sin actuaciones recientes listadas. El entrenador A. Tsereteli presenta varios caballos en la jornada. Cajón 2, interior.",
+                7: "Seis años, 61,5 KG. Monta de H. Mouesan, preparación de T. Callejo S. (Cuadra Esgueva). Equipado con anteojeras (5) y lengua atada (8). Sin historial reciente en el programa. Peso intermedio. Cajón 11.",
+                8: "Cinco años, 61,5 KG. Monta de la jocketa D. Sikorova (con 60,5 KG efectivos), entrenado por M. Alvarez (Cuadra Celso Mendez). Correrá con anteojeras (5). Sin actuaciones recientes listadas. El entrenador M. Alvarez también tiene más participantes en la jornada. Cajón 12.",
+                9: "Cinco años, 61 KG. Jinete R. Sousa, entrenador D. Benitez (Yeguada Valmodomus). Equipado con anteojeras (5) y lengua atada (8). Sin historial reciente en el programa. Peso intermedio. Cajón 7.",
+                10: "Cuatro años, 59 KG. Monta de E. Arevalo, preparación de M. Alvarez (Cuadra Don Pepe). Sin historial reciente en el programa. Peso en la zona media-baja. Cajón 5.",
+                11: "Yegua de 4 años, 59 KG. Monta del aprendiz C. Perez (con 57 KG efectivos), entrenada por B. Moreno (Cuadra Manu Polo). Correrá con lengua atada (8). Sin actuaciones recientes listadas. El descargo del jinete la sitúa en una escala de peso efectiva más baja. Cajón 8.",
+                12: "Otro veterano de 9 años, con 57 KG. Monta del aprendiz A. Martinez (con 56 KG efectivos), entrenado por J.C. Cerqueira (Cuadra Olympus). Correrá con lengua atada (8). Sin historial reciente en el programa. Peso bajo, aún más reducido por el descargo. Cajón 13.",
+                13: "Cinco años, 54 KG. Monta de I. Mendizabal (con 55 KG, indicando 1 KG de peso muerto), preparación de I. Elarre (Cuadra Alvela). Correrá con lengua atada (8). Sin actuaciones recientes listadas. Peso muy bajo en la escala. Cajón 4.",
+                14: "Cinco años, portando el peso más bajo (52,5 KG). Monta del aprendiz V. Alonso V. (con 51,5 KG efectivos), entrenado por M. Augelli (Cuadra Giulia). Equipado con tapones (4). Sin historial reciente en el programa. El peso pluma es su principal característica según el programa. Cajón 1, el más interior."
+            },
+            2: { // Carrera 2
+                1: "Potro asimilado (a) con 57 KG. Monta J. Gelabert, entrenador R. Martin A. Equipado con anteojeras australianas (3) y lengua atada (8). Sin historial reciente en el programa. Cajón 4.",
+                2: "Potro con 57 KG. Jinete R. Sousa, entrenador G. Arizkorreta (Cuadra Mediterraneo). Sin actuaciones recientes listadas. El entrenador G. Arizkorreta tiene una presencia notable en la jornada. Cajón 1, el más interior.",
+                3: "Potro con 57 KG. Monta S. Le Quilleuc, preparación J.M. Osorio (Cuadra El Herrojo). Equipado con tapones (4) y lengua atada (8). El programa muestra [06,06,05,02,NP], sugiriendo cierta regularidad en puestos secundarios y una colocación (2°) antes de una no participación (NP). Cajón 13.",
+                4: "Potro con 57 KG. Jinete B. Fayos, entrenador O. Anaya (Cuadra Salvador Marquez). Sin historial reciente en el programa. El entrenador O. Anaya también cuenta con múltiples participantes. Cajón 5.",
+                5: "Potro con 57 KG. Monta N. De Julián, entrenador J.C. Cerqueira (Cuadra Estrellas de Montefaro). Equipado con anteojeras (5) y lengua atada (8). Sin actuaciones recientes listadas. Cajón 9.",
+                6: "Potro con 57 KG. Monta del aprendiz A. Serrano (con 54,5 KG efectivos), preparación J. Lopez (Cuadra Bernie). Correrá con anteojeras (5). Sin historial reciente en el programa. El descargo reduce su peso efectivo. Cajón 2.",
+                7: "Potro con 57 KG. Monta del aprendiz C. Perez (con 55 KG efectivos), entrenador B. Rama (Cuadra Ajedrez Racing). Correrá con lengua atada (8). Sin actuaciones recientes listadas. Otro con peso efectivo reducido por el descargo. Cajón 8.",
+                8: "Potro con 57 KG. Jinete V. Janacek, entrenador G. Arizkorreta (Cuadra Valladolid). Sin historial reciente en el programa. Segunda baza de G. Arizkorreta en la carrera. Cajón 6.",
+                9: "Potro con 57 KG. Monta R.N. Valle, entrenador O. Anaya (Cuadra Reza Pazooki). El programa indica [08,02,04,07,NP], una secuencia irregular con una colocación (2°) como mejor resultado listado. Cajón 7.",
+                10: "Potro con 57 KG. Jinete V. Seguy (Gorra Roja), entrenador A. Tsereteli (Cuadra Mediterraneo). El programa solo indica [NP], una no participación. Cajón 14.",
+                11: "Potranca con 55,5 KG (peso base de hembra). Monta I. Mendizabal, entrenador G. Arizkorreta (Cuadra Alex y Sofia). El programa muestra [09,NP]. Tercera participante de G. Arizkorreta. Cajón 15, exterior.",
+                12: "Potranca con 55,5 KG. Monta del aprendiz G. Arguinzones (con 54,5 KG efectivos), preparación B. Rama (Cuadra Canarias). Equipada con tapones (4). Sin historial reciente en el programa. Cajón 10.",
+                13: "Potranca con 55,5 KG. Jinete H. Mouesan, entrenador T. Callejo S. (Cuadra Esgueva). Equipada con anteojeras australianas (3) y lengua atada (8). El programa indica [04,07,07,03, NP], mostrando regularidad en puestos intermedios y una colocación (3°). Cajón 3.",
+                14: "Potranca con 55,5 KG. Monta A. Gutierrez V., entrenador Ch. Delcher (Cuadra Agrado Ch.). Sin historial reciente en el programa. Cajón 11.",
+                15: "Potranca con 55,5 KG. Jinete V.M. Valenzuela, entrenador O. Anaya (Cuadra Iru). Sin historial reciente en el programa. Tercera baza de O. Anaya. Cajón 16, el más exterior.",
+                16: "Potranca con 55,5 KG. Monta de la jocketa D. Sikorova (con 54,5 KG efectivos, Gorra Amarilla), entrenador A. Soto (Cuadra Mediterraneo). Correrá con lengua atada (8). El programa indica [NP,04]. Cajón 12."
+            },
+             3: { // Carrera 3 - GP Cimera
+                1: "Potro con 57 KG. Monta D. Sikorova, entrenador A. Soto (Cuadra Mediterraneo). Sin historial reciente en programa. Cajón 9.",
+                2: "Potro con 57 KG. Jinete R. Sousa (Gorra Roja), entrenador A. Soto (Cuadra Mediterraneo). Correrá con lengua atada (8). Sin actuaciones recientes listadas. Segunda baza de A. Soto. Cajón 6.",
+                3: "Potro con 57 KG. Monta B. Fayos, entrenador O. Anaya (Cuadra Reza Pazooki). Sin historial reciente en programa. Cajón 7.",
+                4: "Potro con 57 KG. Jinete J. Gelabert, entrenador J. Lopez (Cuadra Corredores Agrupados). El programa muestra [03,NP,05,02,05], una secuencia que incluye dos colocaciones (3º y 2º) entre resultados más discretos y una no participación. Cajón 5.",
+                5: "Potro con 57 KG. Monta V. Seguy, entrenador A. Tsereteli (Cuadra San Jose). Sin historial reciente en programa. Cajón 1.",
+                6: "Potro con 57 KG. Jinete V. Janacek, entrenador G. Arizkorreta (Yeguada Rocio). Correrá con lengua atada (8). Sin actuaciones recientes listadas. Primera opción de G. Arizkorreta aquí. Cajón 4.",
+                7: "Potro con 57 KG. Monta N. De Julián, entrenador J.C. Cerqueira (Cuadra Estrellas de Montefaro). Sin historial reciente en programa. Cajón 11.",
+                8: "Potro con 57 KG. Jinete A. Gutierrez V., entrenador F. Jimenez (Cuadra El Roque Canarias). Correrá con lengua atada (8). Sin historial reciente en programa. Cajón 3.",
+                9: "Potro con 57 KG. Monta S. Le Quilleuc, entrenador M. Alonso R. (Cuadra Asier Sanchez). Correrá con lengua atada (8). Sin historial reciente en programa. Cajón 10.",
+                10: "Potro con 57 KG. Jinete R.N. Valle, entrenador G. Arizkorreta (Cuadra Peques). Sin historial reciente en programa. Segunda baza de G. Arizkorreta. Cajón 2.",
+                11: "Potro con 57 KG. Monta I. Mendizabal, entrenador G. Arizkorreta (Yeguada AGF). Sin historial reciente en programa. Tercera participación de G. Arizkorreta. Cajón 8."
+            },
+             4: { // Carrera 4
+                1: "Caballo de 6 años con el peso máximo (63 KG). Monta A. Gutierrez V., entrenador J.L. Maroto (Cuadra Babieca). El programa muestra [NP,NP,03,02,08], indicando dos no participaciones recientes seguidas de dos buenas colocaciones (3º y 2º). El peso alto refleja esas colocaciones pasadas. Cajón 10.",
+                2: "Yegua de 4 años con 61,5 KG. Jinete V.M. Valenzuela, entrenador A. Tsereteli (Cuadra Oro). Sin historial reciente en el programa. Peso elevado. Cajón 1.",
+                3: "Seis años, 61 KG. Monta B. Fayos, entrenador J.M. Osorio (Cuadra Africa). Sin historial reciente en el programa. Peso alto. Cajón 6.",
+                4: "Cuatro años, 59,5 KG. Jinete V. Janacek, entrenador G. Arizkorreta (Cuadra Pinna Fidelis). Sin historial reciente en el programa. Peso en la zona media-alta. Cajón 11.",
+                5: "Cuatro años, 59,5 KG. Monta D. Sikorova (con 58,5 KG efectivos, Gorra Blanca), entrenador J.M. Osorio (Cuadra Africa). Correrá con lengua atada (8). Sin historial reciente en el programa. Segunda baza de J.M. Osorio. Cajón 4.",
+                6: "Yegua de 4 años con 59 KG. Jinete R. Sousa, entrenador A. Tsereteli (Cuadra Delta). Sin historial reciente en el programa. Segunda baza de A. Tsereteli. Cajón 12.",
+                7: "Cinco años, 58,5 KG. Monta J. Gelabert, entrenador J.L. Maroto (Cuadra Palco 7). Equipado con anteojeras australianas (3). Sin historial reciente en el programa. Segunda baza de J.L. Maroto. Cajón 3.",
+                8: "Yegua asimilada (a) de 4 años, con 57,5 KG. Monta I. Mendizabal, entrenador J. Horcajada (Cuadra Copihue). Correrá con lengua atada (8). Sin historial reciente en el programa. Peso intermedio. Cajón 8.",
+                9: "Seis años, 57,5 KG. Monta del aprendiz V. Alonso V. (con 56,5 KG efectivos), entrenador Ch. Delcher (Cuadra 
