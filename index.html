@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script>
+        // Configuración de Tailwind CSS (si es necesario extender)
         tailwind.config = {
             theme: {
                 extend: {
@@ -17,17 +18,17 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        'turf-green': '#228B22',
-                        'turf-dirt': '#D2B48C',
-                        'turf-rail': '#A0522D',
-                        'turf-sky': '#ADD8E6',
-                        'turf-text': '#3A3A3A',
+                        'turf-green': '#228B22', // Verde césped
+                        'turf-dirt': '#D2B48C',  // Marrón tierra claro
+                        'turf-rail': '#A0522D',  // Marrón barandilla
+                        'turf-sky': '#ADD8E6',   // Azul cielo claro
+                        'turf-text': '#3A3A3A',  // Gris oscuro texto
                         'turf-gold': '#FFD700', // Dorado para favoritos/picks
-                        'turf-silver': '#C0C0C0',
-                        'turf-bronze': '#CD7F32',
-                        'track-bg': '#f4e9d8',
-                        'finish-line': '#e53e3e',
-                        'modal-bg': 'rgba(0, 0, 0, 0.6)',
+                        'turf-silver': '#C0C0C0', // Plata
+                        'turf-bronze': '#CD7F32', // Bronce
+                        'track-bg': '#f4e9d8',   // Fondo pista simulación
+                        'finish-line': '#e53e3e', // Línea meta roja
+                        'modal-bg': 'rgba(0, 0, 0, 0.6)', // Fondo modal semitransparente
                     }
                 }
             }
@@ -36,9 +37,9 @@
     <style>
         /* Estilos generales, pestañas, tabla, análisis, iconos */
         body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; }
-        .tab-active { background-color: #228B22; color: white; border-color: #166d16; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .tab-active { background-color: #228B22; color: white; border-color: #166d16; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transform: translateY(-2px); }
         .tab-inactive { background-color: white; color: #A0522D; border-color: #D2B48C; }
-        .tab-inactive:hover { background-color: #f7fafc; border-color: #A0522D; }
+        .tab-inactive:hover { background-color: #f7fafc; border-color: #A0522D; transform: translateY(-1px); }
         .tab, .tab-content { transition: all 0.3s ease-in-out; }
         .tab-content { display: none; animation: fadeIn 0.5s ease-in-out; }
         .tab-content.active { display: block; }
@@ -57,7 +58,8 @@
         .favorite { color: #b7791f; font-weight: 600; }
         .place-option { color: #718096; font-weight: 600; }
         .longshot { color: #975a16; font-weight: 600; }
-        .fa-horse-head { color: #A0522D; } .fa-ruler-horizontal { color: #228B22; } .fa-clock { color: #4A90E2; } .fa-euro-sign { color: #F5A623; } .fa-binoculars { color: #4a5568; } .fa-book-open { color: #4a5568; } .fa-star { color: #FFD700; } .fa-medal { color: #C0C0C0; } .fa-rocket { color: #CD7F32; } .fa-weight-hanging { color: #718096; } .fa-map-pin { color: #dd6b20; } .fa-cloud-sun { color: #4299e1; }
+        /* Iconos FontAwesome con colores temáticos */
+        .fa-horse-head { color: #A0522D; } .fa-ruler-horizontal { color: #228B22; } .fa-clock { color: #4A90E2; } .fa-euro-sign { color: #F5A623; } .fa-binoculars { color: #4a5568; } .fa-book-open { color: #4a5568; } .fa-star { color: #FFD700; } .fa-medal { color: #C0C0C0; } .fa-rocket { color: #CD7F32; } .fa-weight-hanging { color: #718096; } .fa-map-pin { color: #dd6b20; } .fa-cloud-sun { color: #4299e1; } .fa-play { color: white; }
 
         /* --- ESTILOS PARA LA SIMULACIÓN --- */
         .simulation-container { margin-top: 1.5rem; padding: 1rem; border: 1px solid #D2B48C; border-radius: 8px; background-color: #fff; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); }
@@ -65,6 +67,7 @@
         .finish-line { position: absolute; right: 20px; top: 0; bottom: 0; width: 5px; background-color: #e53e3e; box-shadow: 2px 0 5px rgba(0,0,0,0.2); }
         .finish-line::after { content: 'META'; position: absolute; top: -20px; left: -15px; font-size: 10px; font-weight: bold; color: #e53e3e; transform: rotate(-90deg); transform-origin: left top; white-space: nowrap; }
         .horse-runner { position: absolute; left: 10px; width: 25px; height: 25px; border-radius: 50%; background-color: #A0522D; color: white; font-size: 10px; font-weight: bold; display: flex; justify-content: center; align-items: center; transition: transform 0.1s linear; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        /* Colores de los mantillas */
         .horse-runner[data-color="1"] { background-color: #DC2626; } .horse-runner[data-color="2"] { background-color: #2563EB; } .horse-runner[data-color="3"] { background-color: #16A34A; } .horse-runner[data-color="4"] { background-color: #FBBF24; } .horse-runner[data-color="5"] { background-color: #9333EA; } .horse-runner[data-color="6"] { background-color: #F97316; } .horse-runner[data-color="7"] { background-color: #EC4899; } .horse-runner[data-color="8"] { background-color: #6B7280; } .horse-runner[data-color="9"] { background-color: #14B8A6; } .horse-runner[data-color="10"] { background-color: #000000; } .horse-runner[data-color="11"] { background-color: #ffffff; color: #000; border: 1px solid #ccc; } .horse-runner[data-color="12"] { background-color: #ca8a04; } .horse-runner[data-color="13"] { background-color: #65a30d; } .horse-runner[data-color="14"] { background-color: #be185d; } .horse-runner[data-color="15"] { background-color: #0891b2; } .horse-runner[data-color="16"] { background-color: #4d7c0f; }
         .horse-running { /* La transformación se aplica con JS */ }
 
@@ -82,13 +85,13 @@
         .modal-equipamiento span { display: inline-block; background-color: #e2e8f0; color: #4a5568; padding: 0.2rem 0.5rem; border-radius: 5px; font-size: 0.75rem; margin-right: 0.3rem; margin-bottom: 0.3rem; }
         .modal-analysis { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee; }
         .modal-analysis-title { font-weight: 600; color: #A0522D; margin-bottom: 0.5rem; font-size: 1rem; }
-        .modal-analysis-text { font-size: 0.85rem; line-height: 1.5; color: #4A5568; }
+        .modal-analysis-text { font-size: 0.85rem; line-height: 1.5; color: #4A5568; white-space: pre-wrap; /* Para respetar saltos de línea */ }
         .modal-pick-status { margin-top: 1rem; padding: 0.6rem; border-radius: 5px; font-weight: bold; text-align: center; font-size: 0.9rem; }
+        /* Clases para los picks */
         .pick-ganador { background-color: #FFFBEB; border: 1px solid #FBBF24; color: #B45309; }
         .pick-colocado { background-color: #F1F5F9; border: 1px solid #94A3B8; color: #475569; }
         .pick-sorpresa { background-color: #FEF3C7; border: 1px solid #F59E0B; color: #92400E; }
         .pick-none { display: none; } /* Ocultar si no hay pick */
-
 
         /* Responsive table adjustments */
         @media (max-width: 768px) {
@@ -97,6 +100,7 @@
             tr { border: 1px solid #ccc; margin-bottom: 1rem; border-radius: 8px; overflow: hidden; }
             td { border: none; border-bottom: 1px solid #eee; position: relative; padding-left: 45%; padding-top: 0.5rem; padding-bottom: 0.5rem; white-space: normal; text-align: left; min-height: 30px; display: flex; align-items: center; }
             td:before { position: absolute; top: 0; left: 6px; width: 40%; padding-right: 10px; white-space: nowrap; text-align: left; font-weight: 600; color: #4a5568; height: 100%; display: flex; align-items: center; font-size: 0.75rem; border-right: 1px solid #e2e8f0; background-color: #f7fafc; padding-left: 4px; }
+            /* Definir el contenido de ::before para cada columna */
             td:nth-of-type(1):before { content: "Nº"; } td:nth-of-type(2):before { content: "Caballo"; } td:nth-of-type(3):before { content: "Edad"; } td:nth-of-type(4):before { content: "KG"; } td:nth-of-type(5):before { content: "Jinete"; } td:nth-of-type(6):before { content: "Cuadra"; } td:nth-of-type(7):before { content: "Entrenador"; } td:nth-of-type(8):before { content: "Cajón"; } td:nth-of-type(9):before { content: "Últ. Act."; }
             .race-track { height: 200px; }
             .horse-runner { width: 20px; height: 20px; font-size: 8px; }
@@ -145,8 +149,8 @@
                  </div>
 
                  <div class="analysis-section mb-6">
-                     <h3 class="analysis-title">Análisis y Pronóstico</h3>
-                     <p class="text-sm mb-3">Carrera muy igualada con caballos expertos. Spanish Ruler destaca por forma y regularidad.</p>
+                     <h3 class="analysis-title">Análisis y Pronóstico (Informe Resumen)</h3>
+                     <p class="text-sm mb-3">Prueba que abre la jornada, un hándicap dividido (2ª parte) sobre 2.200 metros para caballos y yeguas de 4 años en adelante. Lote de valores medios, muchos buscando su primera victoria del año. La pista presumiblemente buena a blanda podría beneficiar a los caballos fondistas con resistencia.</p>
                      <ul class="list-none space-y-3 text-sm">
                          <li><i class="fas fa-star mr-2 text-turf-gold"></i><strong class="favorite">Ganador:</strong> <span class="horse-name">9 SPANISH RULER (FR)</span></li>
                          <li><i class="fas fa-medal mr-2 text-turf-silver"></i><strong class="place-option">Colocados:</strong> <span class="horse-name">7 VIKING CITY (FR)</span>, <span class="horse-name">1 SOFUNNY (IRE)</span></li>
@@ -163,6 +167,7 @@
                      </div>
                       <p id="winner-info-1" class="text-center mt-2 font-semibold text-turf-green hidden"></p>
                  </div>
+
                  <h4 class="text-lg font-semibold text-turf-rail mb-3 mt-6">Participantes (Programa Detallado)</h4>
                  <div class="overflow-x-auto">
                       <table id="participants-1" class="min-w-full bg-white rounded-lg shadow participants-table">
@@ -200,7 +205,7 @@
 
                  <div class="analysis-section mb-6">
                      <h3 class="analysis-title">Análisis y Pronóstico (Informe Resumen)</h3>
-                     <p class="text-sm mb-3">Condicional de 3 años con muchos debutantes. Alhaurin destaca por consistencia.</p>
+                     <p class="text-sm mb-3">Segunda del programa, un Premio Maracay sobre 1.400 metros para potros y potrancas de 3 años. Es una carrera condicional para productos nacionales o nacidos en España (Made in Spain), donde varios potros buscan su primera victoria o consolidar sus recientes progresos. La distancia demandará equilibrio entre velocidad y cierta resistencia para rematar bien en la recta de meta.</p>
                      <ul class="list-none space-y-3 text-sm">
                          <li><i class="fas fa-star mr-2 text-turf-gold"></i><strong class="favorite">Ganador:</strong> <span class="horse-name">2 ALHAURIN (IRE)</span></li>
                          <li><i class="fas fa-medal mr-2 text-turf-silver"></i><strong class="place-option">Colocados:</strong> <span class="horse-name">15 TARA ROAD (IRE)</span>, <span class="horse-name">8 ETERNAL SANDS (IRE)</span></li>
@@ -217,6 +222,7 @@
                      </div>
                       <p id="winner-info-2" class="text-center mt-2 font-semibold text-turf-green hidden"></p>
                  </div>
+
                  <h4 class="text-lg font-semibold text-turf-rail mb-3 mt-6">Participantes (Programa Detallado)</h4>
                  <div class="overflow-x-auto">
                       <table id="participants-2" class="min-w-full bg-white rounded-lg shadow participants-table">
@@ -245,7 +251,7 @@
                  </div>
             </div>
 
-             <div id="carrera3" class="tab-content p-4 bg-gray-50 rounded-lg shadow-inner">
+            <div id="carrera3" class="tab-content p-4 bg-gray-50 rounded-lg shadow-inner">
                  <h2 class="text-2xl font-bold text-turf-green mb-1">3ª Carrera: Gran Premio Cimera (Poule de Potros)</h2>
                  <p class="mb-3 text-md text-turf-rail">(Categoría A) (Made in Spain criadores) - 1.600 mts.</p>
                  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5 text-sm border-y py-3 bg-white rounded">
@@ -256,7 +262,7 @@
 
                  <div class="analysis-section mb-6">
                      <h3 class="analysis-title">Análisis y Pronóstico (Informe Resumen)</h3>
-                     <p class="text-sm mb-3">Primera joya de la triple corona. Goodmood es sólido pero Skytree llega invicto.</p>
+                     <p class="text-sm mb-3">Llegamos a una de las pruebas cumbre de la primavera: el Gran Premio Cimera, la Poule de Potros (2.000 Guineas españolas), una carrera de Categoría A sobre 1.600 metros. Es la primera joya de la Triple Corona nacional para los machos. Aquí se decide quién es el mejor potro milero de la generación. La carrera promete un ritmo selectivo.</p>
                       <ul class="list-none space-y-3 text-sm">
                          <li><i class="fas fa-star mr-2 text-turf-gold"></i><strong class="favorite">Ganador:</strong> <span class="horse-name">2 GOODMOOD (IRE)</span></li>
                          <li><i class="fas fa-medal mr-2 text-turf-silver"></i><strong class="place-option">Colocados:</strong> <span class="horse-name">5 SKYTREE (FR)</span>, <span class="horse-name">1 GAUCIN (FR)</span></li>
@@ -273,6 +279,7 @@
                      </div>
                       <p id="winner-info-3" class="text-center mt-2 font-semibold text-turf-green hidden"></p>
                  </div>
+
                  <h4 class="text-lg font-semibold text-turf-rail mb-3 mt-6">Participantes (Programa Detallado)</h4>
                  <div class="overflow-x-auto">
                       <table id="participants-3" class="min-w-full bg-white rounded-lg shadow participants-table">
@@ -280,7 +287,7 @@
                               <tr><th>Nº</th><th>Caballo</th><th>Edad</th><th>KG</th><th>Jinete</th><th>Cuadra</th><th>Entrenador</th><th>Cajón</th><th class="text-center">Últ. Act.</th></tr>
                          </thead>
                          <tbody>
-                            <tr onclick="showHorseModal(this, 3)"><td>1</td><td class="horse-name">GAUCIN (FR)</td><td>3a</td><td>57</td><td class="jockey-name">D. SIKOROVA</td><td>MEDITERRANEO</td><td class="trainer-name">A. SOTO</td><td class="text-center">1</td><td class="ult-act text-center">06,01,04,02,01</td></tr>
+                           <tr onclick="showHorseModal(this, 3)"><td>1</td><td class="horse-name">GAUCIN (FR)</td><td>3a</td><td>57</td><td class="jockey-name">D. SIKOROVA</td><td>MEDITERRANEO</td><td class="trainer-name">A. SOTO</td><td class="text-center">1</td><td class="ult-act text-center">06,01,04,02,01</td></tr>
                             <tr onclick="showHorseModal(this, 3)"><td>2</td><td class="horse-name">GOODMOOD (IRE) (8)</td><td>3a</td><td>57</td><td class="jockey-name">R. SOUSA (G. Roja)</td><td>MEDITERRANEO</td><td class="trainer-name">A. SOTO</td><td class="text-center">7</td><td class="ult-act text-center">01,03,01,03,01</td></tr>
                             <tr onclick="showHorseModal(this, 3)"><td>3</td><td class="horse-name">METRO DUBAI (FR)</td><td>3a</td><td>57</td><td class="jockey-name">B. FAYOS</td><td>REZA PAZOOKI</td><td class="trainer-name">O. ANAYA</td><td class="text-center">8</td><td class="ult-act text-center">03,03,01,02,03</td></tr>
                             <tr onclick="showHorseModal(this, 3)"><td>4</td><td class="horse-name">SIR EDWARD (IRE)</td><td>3a</td><td>57</td><td class="jockey-name">L. GELABERT</td><td>CORREDORES AGRUPADOS</td><td class="trainer-name">J. LOPEZ</td><td class="text-center">5</td><td class="ult-act text-center">03,NP,05,02,05</td></tr>
@@ -296,7 +303,7 @@
                  </div>
             </div>
 
-             <div id="carrera4" class="tab-content p-4 bg-gray-50 rounded-lg shadow-inner">
+            <div id="carrera4" class="tab-content p-4 bg-gray-50 rounded-lg shadow-inner">
                  <h2 class="text-2xl font-bold text-turf-green mb-1">4ª Carrera: Premio Octaviano y Gonzalo Griñán</h2>
                  <p class="mb-3 text-md text-turf-rail">(Hándicap Dividido 1ª parte) (Made in Spain) - 2.200 mts.</p>
                  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5 text-sm border-y py-3 bg-white rounded">
@@ -307,7 +314,7 @@
 
                  <div class="analysis-section mb-6">
                      <h3 class="analysis-title">Análisis y Pronóstico (Informe Resumen)</h3>
-                     <p class="text-sm mb-3">Handicap de buen nivel. Trade Honor llega con seguidos segundos puestos.</p>
+                     <p class="text-sm mb-3">Esta es la primera parte del hándicap dividido, con los ejemplares de mayor valor. El nivel competitivo sube. La estrategia de peso vuelve a ser fundamental en 2.200m, posiblemente blandos. Se esperan llegadas muy apretadas.</p>
                       <ul class="list-none space-y-3 text-sm">
                          <li><i class="fas fa-star mr-2 text-turf-gold"></i><strong class="favorite">Ganador:</strong> <span class="horse-name">4 TRADE HONOUR (FR)</span></li>
                          <li><i class="fas fa-medal mr-2 text-turf-silver"></i><strong class="place-option">Colocados:</strong> <span class="horse-name">6 LUNA ROSSA</span>, <span class="horse-name">2 RUESGA (IRE)</span></li>
@@ -324,6 +331,7 @@
                      </div>
                       <p id="winner-info-4" class="text-center mt-2 font-semibold text-turf-green hidden"></p>
                  </div>
+
                  <h4 class="text-lg font-semibold text-turf-rail mb-3 mt-6">Participantes (Programa Detallado)</h4>
                  <div class="overflow-x-auto">
                       <table id="participants-4" class="min-w-full bg-white rounded-lg shadow participants-table">
@@ -348,7 +356,7 @@
                  </div>
             </div>
 
-             <div id="carrera5" class="tab-content p-4 bg-gray-50 rounded-lg shadow-inner">
+            <div id="carrera5" class="tab-content p-4 bg-gray-50 rounded-lg shadow-inner">
                  <h2 class="text-2xl font-bold text-turf-green mb-1">5ª Carrera: Gran Premio Valderas (Poule de Potrancas)</h2>
                  <p class="mb-3 text-md text-turf-rail">(Categoría A) (Made in Spain criadores) - 1.600 mts.</p>
                  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5 text-sm border-y py-3 bg-white rounded">
@@ -359,7 +367,7 @@
 
                  <div class="analysis-section mb-6">
                      <h3 class="analysis-title">Análisis y Pronóstico (Informe Resumen)</h3>
-                     <p class="text-sm mb-3">Las mejores potrancas del año. Leyhaimur es la más regular.</p>
+                     <p class="text-sm mb-3">Turno de las potrancas de 3 años en su Gran Premio: el G.P. Valderas (1.000 Guineas españolas). Reúne a las mejores potrancas de la generación. Tradicionalmente, esta prueba suele tener grandes favoritas pero también ha dado sorpresas. Lote numeroso y muy competitivo.</p>
                       <ul class="list-none space-y-3 text-sm">
                          <li><i class="fas fa-star mr-2 text-turf-gold"></i><strong class="favorite">Ganador:</strong> <span class="horse-name">8 LEVHAIMUR (GB)</span></li>
                          <li><i class="fas fa-medal mr-2 text-turf-silver"></i><strong class="place-option">Colocados:</strong> <span class="horse-name">5 FICTION (GB)</span>, <span class="horse-name">10 OCTANS</span></li>
@@ -376,6 +384,7 @@
                      </div>
                       <p id="winner-info-5" class="text-center mt-2 font-semibold text-turf-green hidden"></p>
                  </div>
+
                  <h4 class="text-lg font-semibold text-turf-rail mb-3 mt-6">Participantes (Programa Detallado)</h4>
                  <div class="overflow-x-auto">
                       <table id="participants-5" class="min-w-full bg-white rounded-lg shadow participants-table">
@@ -401,7 +410,7 @@
                  </div>
             </div>
 
-             <div id="carrera6" class="tab-content p-4 bg-gray-50 rounded-lg shadow-inner">
+            <div id="carrera6" class="tab-content p-4 bg-gray-50 rounded-lg shadow-inner">
                  <h2 class="text-2xl font-bold text-turf-green mb-1">6ª Carrera: Premio Realeza</h2>
                  <p class="mb-3 text-md text-turf-rail">(Categoría C) (Hándicap Ref: 3a:45,5; 4a+:41) (Made in Spain) - 1.000 mts. Línea Recta</p>
                  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5 text-sm border-y py-3 bg-white rounded">
@@ -412,7 +421,7 @@
 
                  <div class="analysis-section mb-6">
                      <h3 class="analysis-title">Análisis y Pronóstico (Informe Resumen)</h3>
-                     <p class="text-sm mb-3">Sprint puro. Assembly Call llega imparable y Be True siempre cumple.</p>
+                     <p class="text-sm mb-3">La jornada cierra con un Hándicap Categoría C en 1.000 metros (línea recta). Puro sprint directo, sin curvas, donde la velocidad explosiva es fundamental. Mezcla de ejemplares jóvenes ligeros y viejos sprinters contrastados. La recta de LZ es exigente, con ligera pendiente ascendente al final.</p>
                       <ul class="list-none space-y-3 text-sm">
                          <li><i class="fas fa-star mr-2 text-turf-gold"></i><strong class="favorite">Ganador:</strong> <span class="horse-name">3 ASSEMBLY CALL (IRE)</span></li>
                          <li><i class="fas fa-medal mr-2 text-turf-silver"></i><strong class="place-option">Colocados:</strong> <span class="horse-name">7 BE TRUE (FR)</span>, <span class="horse-name">2 ORIGEN (IRE)</span></li>
@@ -429,6 +438,7 @@
                      </div>
                       <p id="winner-info-6" class="text-center mt-2 font-semibold text-turf-green hidden"></p>
                  </div>
+
                  <h4 class="text-lg font-semibold text-turf-rail mb-3 mt-6">Participantes (Programa Detallado)</h4>
                  <div class="overflow-x-auto">
                       <table id="participants-6" class="min-w-full bg-white rounded-lg shadow participants-table">
@@ -452,16 +462,32 @@
             </div>
 
             <div id="paddock" class="tab-content p-4 bg-gray-50 rounded-lg shadow-inner">
-                 <h2 class="text-2xl font-bold text-turf-green mb-4"><i class="fas fa-binoculars mr-2"></i>Guía de Observación en el Paddock (Informe Resumen)</h2>
-                 <p class="mb-4 text-sm">Consejos clave para evaluar a los caballos antes de la carrera:</p>
-                 <ul class="list-disc list-inside space-y-2 text-md text-gray-700">
-                     <li><strong>Piel brillante y musculatura definida:</strong> indica buena forma.</li>
-                     <li><strong>Sudor leve (sin espuma):</strong> energía positiva. Evita caballos empapados.</li>
-                     <li><strong>Caminar elástico y seguro:</strong> agilidad sin rigidez.</li>
-                     <li><strong>Orejas móviles y mirada atenta:</strong> concentrado pero sin estrés.</li>
-                     <li><strong>Comportamiento tranquilo con el mozo:</strong> buena actitud previa a competir.</li>
-                 </ul>
-                  <p class="mt-4 text-xs italic text-gray-600">Combina estas observaciones con el análisis de la forma y los datos del programa.</p>
+                 <h2 class="text-2xl font-bold text-turf-green mb-4"><i class="fas fa-binoculars mr-2"></i>Guía de Observación en el Paddock</h2>
+                 <p class="mb-4 text-sm">Una parte fundamental del análisis antes de las carreras es la observación directa de los caballos en el paddock. Un ojo atento puede detectar señales sobre el estado físico y mental de cada ejemplar en los minutos previos a competir. Aquí van algunos consejos prácticos y aspectos clave a tener en cuenta:</p>
+                 <div class="space-y-4 text-sm">
+                     <div>
+                         <h4 class="font-semibold text-turf-rail">1. Aspecto físico general:</h4>
+                         <p>Fijarse en el pelaje (brillante = salud), musculatura (definida, sin exceso de grasa ni delgadez extrema), y si lleva vendajes (pueden ser preventivos o indicar molestias).</p>
+                     </div>
+                     <div>
+                         <h4 class="font-semibold text-turf-rail">2. Sudoración y temperatura:</h4>
+                         <p>Un ligero brillo ("sudor de seda") es normal. Sudores excesivos, espuma blanca abundante (especialmente en cuello/grupa) o respiración muy agitada en reposo son señales de nerviosismo o estrés.</p>
+                     </div>
+                     <div>
+                         <h4 class="font-semibold text-turf-rail">3. Comportamiento y actitud (Paso):</h4>
+                         <p>Un paso largo, elástico y seguro indica soltura. Caminar rígido, corto o con cojera (incluso leve al girar) son malas señales. Orejas móviles y atentas = buen ánimo; orejas pegadas atrás = enfado/estrés.</p>
+                     </div>
+                     <div>
+                         <h4 class="font-semibold text-turf-rail">4. Relación con el mozo y nivel de nervios:</h4>
+                         <p>Un caballo tranquilo camina relajado al lado del mozo. Si tira, da tirones, cabriolas, intenta morder o cocear, muestra nerviosismo excesivo que gasta energía. Un poco de brío controlado es bueno; el descontrol o el pánico, no.</p>
+                     </div>
+                     <div>
+                         <h4 class="font-semibold text-turf-rail">5. Señales Positivas vs. Alarma (Resumen):</h4>
+                         <p><strong>Positivo:</strong> Pelaje brillante, músculos definidos, sudor ligero, paso ágil, orejas atentas, mirada viva, actitud calmada con brío.</p>
+                         <p><strong>Alarma:</strong> Sudor abundante/espumoso, respiración acelerada, mirada perdida/nerviosa, orejas aplastadas, paso tosco/rígido/cojera, comportamiento indisciplinado.</p>
+                     </div>
+                 </div>
+                  <p class="mt-4 text-xs italic text-gray-600">Combinar estas observaciones con el análisis de la forma y los datos del programa proporciona la visión más completa.</p>
              </div>
 
             <div id="leyenda" class="tab-content p-4 bg-gray-50 rounded-lg shadow-inner">
@@ -539,7 +565,7 @@
              <div id="modalPickStatus" class="modal-pick-status hidden">
                 </div>
              <div id="modalAnalysisSection" class="modal-analysis">
-                 <h4 class="modal-analysis-title">Análisis Detallado</h4>
+                 <h4 class="modal-analysis-title">Análisis Experto Detallado</h4>
                  <p id="modalAnalysisText" class="modal-analysis-text"></p>
              </div>
         </div>
@@ -553,24 +579,25 @@
             tabContents.forEach(content => content.classList.remove('active'));
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(tab => {
-                tab.classList.remove('tab-active', 'border-b-4', 'border-turf-green');
+                tab.classList.remove('tab-active', 'border-b-4', 'border-turf-green', 'transform', '-translate-y-0.5'); // Quitar estilos activos
                 tab.classList.add('tab-inactive');
             });
             const selectedContent = document.getElementById(tabId);
             if (selectedContent) selectedContent.classList.add('active');
             event.currentTarget.classList.remove('tab-inactive');
-            event.currentTarget.classList.add('tab-active', 'border-b-4', 'border-turf-green');
+            event.currentTarget.classList.add('tab-active', 'border-b-4', 'border-turf-green', 'transform', '-translate-y-0.5'); // Añadir estilos activos
         }
 
+        // Inicializar la primera pestaña como activa al cargar
         document.addEventListener('DOMContentLoaded', () => {
             const firstTabButton = document.querySelector('.tab');
             if (firstTabButton) {
-                 firstTabButton.classList.remove('tab-inactive');
-                 firstTabButton.classList.add('tab-active', 'border-b-4', 'border-turf-green');
+                 // No es necesario añadir clases aquí si ya están en el HTML
                  const firstTabContentId = firstTabButton.getAttribute('onclick').match(/'([^']+)'/)[1];
                  const firstTabContent = document.getElementById(firstTabContentId);
-                 if(firstTabContent) firstTabContent.classList.add('active');
+                 if(firstTabContent) firstTabContent.classList.add('active'); // Asegurar que el contenido inicial esté visible
             }
+            // Añadir event listeners a las filas de las tablas para abrir el modal
             document.querySelectorAll('.participants-table tbody tr').forEach(row => {
                 row.addEventListener('click', function() {
                     const tableId = this.closest('table').id;
@@ -581,30 +608,31 @@
         });
 
         // --- Lógica para Simulación ---
-        let raceIntervals = {};
+        let raceIntervals = {}; // Objeto para almacenar los intervalos de cada carrera
 
         // Función para obtener el estatus del pick (Necesaria ANTES de usarla en getHorsesForRace y startSimulation)
          function getPickStatus(raceNum, horseName) {
             const picks = racePicks[raceNum];
-            // Limpiar nombre del caballo para comparación
+            // Limpiar nombre del caballo para comparación (ignora sufijos y espacios extra)
             const normalizedHorseName = horseName.replace(/\s*\((FR|IRE|GB|a|3|4|5|8)\)/gi, '').trim();
 
-            if (!picks) return { status: 'none', text: '', class: 'pick-none' }; // Texto vacío para 'none'
+            if (!picks) return { status: 'none', text: '', class: 'pick-none' }; // Sin pick definido
 
             // Función auxiliar para comparar nombres ignorando sufijos entre paréntesis
             const compareNames = (pickName, currentName) => {
+                 if (!pickName) return false; // Si el pick no está definido, no comparar
                  const normalizedPickName = pickName.replace(/\s*\((FR|IRE|GB|a|3|4|5|8)\)/gi, '').trim();
-                 return normalizedPickName === currentName;
+                 return normalizedPickName.toUpperCase() === currentName.toUpperCase(); // Comparación insensible a mayúsculas
             };
 
             if (compareNames(picks.ganador, normalizedHorseName)) return { status: 'ganador', text: 'Pick Ganador (Informe Resumen)', class: 'pick-ganador' };
             if (picks.colocados.some(c => compareNames(c, normalizedHorseName))) return { status: 'colocado', text: 'Pick Colocado (Informe Resumen)', class: 'pick-colocado' };
             if (compareNames(picks.sorpresa, normalizedHorseName)) return { status: 'sorpresa', text: 'Pick Sorpresa (Informe Resumen)', class: 'pick-sorpresa' };
 
-            return { status: 'none', text: '', class: 'pick-none' }; // Texto vacío para 'none'
+            return { status: 'none', text: '', class: 'pick-none' }; // No es un pick
         }
 
-
+        // Obtiene los datos básicos de los caballos de una tabla específica
         function getHorsesForRace(raceNumber) {
             const tableId = `participants-${raceNumber}`;
             const table = document.getElementById(tableId);
@@ -618,13 +646,15 @@
                      const horseNum = parseInt(numberCell.textContent.trim(), 10);
                      const horseName = nameCell.textContent.trim();
                      if (!isNaN(horseNum)) {
-                         const pick = getPickStatus(raceNumber, horseName); // Obtener pick para asignar velocidad base
+                         // Obtener el pick para asignar velocidad base correcta
+                         const pick = getPickStatus(raceNumber, horseName);
                          let baseSpeed;
+                         // Asignar velocidad base según el pick para la simulación
                          switch (pick.status) {
                              case 'ganador': baseSpeed = 1.25; break; // Más rápido
                              case 'colocado': baseSpeed = 1.15; break; // Rápido
                              case 'sorpresa': baseSpeed = 1.05; break; // Ligeramente más rápido
-                             default: baseSpeed = 1.0; break; // Velocidad estándar
+                             default: baseSpeed = 1.0; break; // Velocidad normal
                          }
                          horses.push({ number: horseNum, name: horseName, baseSpeed: baseSpeed });
                      }
@@ -633,7 +663,7 @@
             return horses; // Devuelve array de objetos {number, name, baseSpeed}
         }
 
-
+        // Inicia la simulación visual de la carrera
         function startSimulation(raceNumber) {
             const trackId = `race-track-${raceNumber}`;
             const track = document.getElementById(trackId);
@@ -643,16 +673,17 @@
 
             if (!track || !winnerInfo || !button) return;
 
+            // Limpiar simulación anterior si existe
             if (raceIntervals[raceNumber]) {
                 clearInterval(raceIntervals[raceNumber]);
             }
-            track.innerHTML = '<div class="finish-line"></div>';
+            track.innerHTML = '<div class="finish-line"></div>'; // Resetear pista
             winnerInfo.classList.add('hidden');
             winnerInfo.textContent = '';
-            track.classList.remove('hidden');
-            button.disabled = true;
+            track.classList.remove('hidden'); // Mostrar pista
+            button.disabled = true; // Deshabilitar botón durante simulación
 
-            const horsesData = getHorsesForRace(raceNumber);
+            const horsesData = getHorsesForRace(raceNumber); // Obtiene datos de caballos
              if (horsesData.length === 0) {
                 winnerInfo.textContent = 'No se encontraron participantes para simular.';
                 winnerInfo.classList.remove('hidden');
@@ -661,135 +692,280 @@
             }
 
             const horseElements = [];
-            const trackWidth = track.offsetWidth - 40;
-            const finishLinePos = trackWidth + 10;
+            const trackWidth = track.offsetWidth - 40; // Ancho útil de la pista
+            const finishLinePos = trackWidth + 10; // Posición de la línea de meta
 
+            // Crear elementos visuales para cada caballo
             horsesData.forEach((horseData, index) => {
                 const horseElement = document.createElement('div');
                 horseElement.classList.add('horse-runner');
-                horseElement.textContent = horseData.number;
+                horseElement.textContent = horseData.number; // Número en el círculo
                 horseElement.dataset.number = horseData.number;
-                horseElement.dataset.color = (horseData.number % 16) + 1;
-                const totalHeight = track.offsetHeight - 20;
-                const horseHeight = 25;
+                horseElement.dataset.color = (horseData.number % 16) + 1; // Asignar color según número
+                // Calcular posición vertical para espaciar caballos
+                const totalHeight = track.offsetHeight - 20; // Altura útil
+                const horseHeight = 25; // Altura del círculo
                 const maxIndex = horsesData.length - 1;
-                // Asegurar espaciado correcto incluso con pocos caballos
-                const spacing = horsesData.length > 1 ? (totalHeight - (horsesData.length * horseHeight)) / (horsesData.length -1) : 0;
+                const spacing = maxIndex > 0 ? (totalHeight - (horsesData.length * horseHeight)) / maxIndex : 0; // Espacio entre caballos
                 const topPosition = 10 + index * (horseHeight + spacing);
-
-                horseElement.style.top = `${Math.max(10, Math.min(topPosition, totalHeight + 10 - horseHeight))}px`;
-                horseElement.style.transform = `translateX(0px)`;
+                horseElement.style.top = `${Math.max(10, Math.min(topPosition, totalHeight + 10 - horseHeight))}px`; // Asegurar que esté dentro de la pista
+                horseElement.style.transform = `translateX(0px)`; // Posición inicial
                 track.appendChild(horseElement);
                 horseElements.push({
                     element: horseElement,
                     number: horseData.number,
-                    position: 10,
-                    baseSpeed: horseData.baseSpeed, // Usar la velocidad base asignada
-                    // Factor aleatorio más pequeño para que la velocidad base pese más
-                    randomFactor: Math.random() * 0.2 + 0.9 // Rango aleatorio (0.9 a 1.1)
+                    position: 10, // Posición horizontal inicial
+                    baseSpeed: horseData.baseSpeed, // Velocidad base según pick
+                    randomFactor: Math.random() * 0.3 + 0.85 // Factor aleatorio para variabilidad
                 });
             });
 
             let winnerDeclared = false;
 
+            // Intervalo de animación
             raceIntervals[raceNumber] = setInterval(() => {
-                if (winnerDeclared) {
+                if (winnerDeclared) { // Si ya hay ganador, detener
                      clearInterval(raceIntervals[raceNumber]);
                      button.disabled = false;
                      return;
                 }
                 let maxPosition = 0;
+                // Mover cada caballo
                 horseElements.forEach(horse => {
-                    if (horse.position < finishLinePos) {
-                        // Mover usando baseSpeed y un factor aleatorio más controlado
-                        horse.position += horse.baseSpeed * horse.randomFactor * (Math.random() * 0.15 + 0.925); // Variación por frame aún menor
+                    if (horse.position < finishLinePos) { // Si no ha llegado a la meta
+                        // Calcular avance (velocidad base * factor aleatorio * variación pequeña)
+                        horse.position += horse.baseSpeed * horse.randomFactor * (Math.random() * 0.2 + 0.9);
+                        // Aplicar transformación CSS para mover el caballo
                         horse.element.style.transform = `translateX(${Math.min(horse.position - 10, trackWidth)}px)`;
+                        // Comprobar si ha cruzado la meta
                         if (horse.position >= finishLinePos && !winnerDeclared) {
                             winnerDeclared = true;
-                            winnerInfo.textContent = `¡Ganador Simulado: Caballo #${horse.number}!`;
+                            winnerInfo.textContent = `¡Ganador Simulado: Caballo #${horse.number}!`; // Mostrar ganador
                             winnerInfo.classList.remove('hidden');
+                             // Esperar un poco antes de reactivar el botón
                              setTimeout(() => {
                                 clearInterval(raceIntervals[raceNumber]);
                                 button.disabled = false;
-                             }, 1000);
+                             }, 1000); // 1 segundo de espera
                         }
                     }
-                    if (horse.position > maxPosition) maxPosition = horse.position;
+                    if (horse.position > maxPosition) maxPosition = horse.position; // Seguir la posición máxima
                 });
-            }, 30); // Intervalo para animación fluida
+            }, 30); // Intervalo corto para animación fluida (aprox. 33 fps)
         }
 
         // --- Lógica para el Modal ---
+        // Objeto con los picks resumidos para cada carrera
         const racePicks = {
-            1: { ganador: "Spanish Ruler", colocados: ["Viking City", "Sofunny"], sorpresa: "Uraba" },
-            2: { ganador: "Alhaurin", colocados: ["Tara Road", "Eternal Sands"], sorpresa: "Kamara" },
-            3: { ganador: "Goodmood", colocados: ["Skytree", "Gaucin"], sorpresa: "Yo Mauro" },
-            4: { ganador: "Trade Honour", colocados: ["Luna Rossa", "Ruesga"], sorpresa: "Xerac" },
-            5: { ganador: "Levhaimur", colocados: ["Fiction", "Octans"], sorpresa: "Ecology" }, // Corregido nombre
-            6: { ganador: "Assembly Call", colocados: ["Be True", "Origen"], sorpresa: "Sir Geoff Morgan" }
+            1: { ganador: "SPANISH RULER", colocados: ["VIKING CITY", "SOFUNNY"], sorpresa: "URABA" },
+            2: { ganador: "ALHAURIN", colocados: ["TARA ROAD", "ETERNAL SANDS"], sorpresa: "KAMARA" },
+            3: { ganador: "GOODMOOD", colocados: ["SKYTREE", "GAUCIN"], sorpresa: "YO MAURO" },
+            4: { ganador: "TRADE HONOUR", colocados: ["LUNA ROSSA", "RUESGA"], sorpresa: "XERAC" },
+            5: { ganador: "LEVHAIMUR", colocados: ["FICTION", "OCTANS"], sorpresa: "ECOLOGY" },
+            6: { ganador: "ASSEMBLY CALL", colocados: ["BE TRUE", "ORIGEN"], sorpresa: "SIR GEOFF MORGAN" }
         };
 
+        // Mapeo de símbolos de equipamiento a texto descriptivo
         const equipamientoMap = {
             '(3)': 'Carrilleras', '(4)': 'Tapones', '(5)': 'Anteojeras',
             '(8)': 'Lengua Atada', '(a)': 'Asimilado'
         };
 
-        // Objeto con el análisis detallado extraído del PDF "Análisis de caballos_ La Zarzuela.pdf"
-         const horseAnalysisData = {
+        // Objeto con el ANÁLISIS EXPERTO DETALLADO para cada caballo
+        const horseAnalysisData = {
              1: { // Carrera 1
-                1: "Caballo de 6 años que porta el peso máximo de la carrera (63 KG). Montado por B. Fayos, entrenado por J.C. Rosell para la cuadra Mafius. El programa no muestra actuaciones recientes. El peso elevado sugiere una valoración alta por parte del handicapper en relación a este lote. Parte desde el cajón 10.",
-                2: "Yegua de 4 años, también con 63 KG, pero con el descargo del jinete aprendiz G. Arguinzones (monta con 60 KG efectivos). Entrenada por B. Rama (Cuadra Diazmor). El programa indica uso de tapones (4) y lengua atada (8). Sin historial reciente en el programa. El peso base es alto, pero el descargo del jinete alivia la carga. Cajón 9.",
-                3: "Veterano de 9 años con 62,5 KG. Jinete N. De Julián, entrenador A. Carrasco (Cuadra Las Aguilas). Correrá con lengua atada (8). Sin actuaciones recientes listadas. Su edad y peso sugieren experiencia en este tipo de pruebas. Cajón 3, posición interior.",
-                4: "Yegua de 4 años con 62,5 KG. Monta de J. Gelabert, preparación de F. Rodríguez (Cuadra Juncalillo). Sin historial reciente en el programa. Peso en la parte alta de la tabla. Cajón 6.",
-                5: "Caballo asimilado (a) de 5 años, con 62 KG. Monta de V. Janacek, entrenamiento de J.M. Osorio (Cuadra Santa Barbara). Equipado con tapones (4) y lengua atada (8). El programa muestra una secuencia de actuaciones [02,03,NP,04,09], indicando dos colocaciones, una no participación (NP) y dos resultados más discretos. Esta secuencia es la más completa del lote según el programa. Parte desde un cajón exterior (14).",
-                6: "Cuatro años, 62 KG. Jinete J.C. Diestra, entrenador A. Tsereteli (Cuadra Hercules y Fallas). Correrá con anteojeras (5). Sin actuaciones recientes listadas. El entrenador A. Tsereteli presenta varios caballos en la jornada. Cajón 2, interior.",
-                7: "Seis años, 61,5 KG. Monta de H. Mouesan, preparación de T. Callejo S. (Cuadra Esgueva). Equipado con anteojeras (5) y lengua atada (8). Sin historial reciente en el programa. Peso intermedio. Cajón 11.",
-                8: "Cinco años, 61,5 KG. Monta de la jocketa D. Sikorova (con 60,5 KG efectivos), entrenado por M. Alvarez (Cuadra Celso Mendez). Correrá con anteojeras (5). Sin actuaciones recientes listadas. El entrenador M. Alvarez también tiene más participantes en la jornada. Cajón 12.",
-                9: "Cinco años, 61 KG. Jinete R. Sousa, entrenador D. Benitez (Yeguada Valmodomus). Equipado con anteojeras (5) y lengua atada (8). Sin historial reciente en el programa. Peso intermedio. Cajón 7.",
-                10: "Cuatro años, 59 KG. Monta de E. Arevalo, preparación de M. Alvarez (Cuadra Don Pepe). Sin historial reciente en el programa. Peso en la zona media-baja. Cajón 5.",
-                11: "Yegua de 4 años, 59 KG. Monta del aprendiz C. Perez (con 57 KG efectivos), entrenada por B. Moreno (Cuadra Manu Polo). Correrá con lengua atada (8). Sin actuaciones recientes listadas. El descargo del jinete la sitúa en una escala de peso efectiva más baja. Cajón 8.",
-                12: "Otro veterano de 9 años, con 57 KG. Monta del aprendiz A. Martinez (con 56 KG efectivos), entrenado por J.C. Cerqueira (Cuadra Olympus). Correrá con lengua atada (8). Sin historial reciente en el programa. Peso bajo, aún más reducido por el descargo. Cajón 13.",
-                13: "Cinco años, 54 KG. Monta de I. Mendizabal (con 55 KG, indicando 1 KG de peso muerto), preparación de I. Elarre (Cuadra Alvela). Correrá con lengua atada (8). Sin actuaciones recientes listadas. Peso muy bajo en la escala. Cajón 4.",
-                14: "Cinco años, portando el peso más bajo (52,5 KG). Monta del aprendiz V. Alonso V. (con 51,5 KG efectivos), entrenado por M. Augelli (Cuadra Giulia). Equipado con tapones (4). Sin historial reciente en el programa. El peso pluma es su principal característica según el programa. Cajón 1, el más interior."
+                1: "SOFUNNY (IRE): Dio un salto de calidad ganando en su reaparición este año de forma convincente. Demostró que el descanso le sentó bien. Los 63kg son un lastre considerable, especialmente si la pista está pesada, pero su clase y la monta experta de Fayos pueden compensarlo. Si repite su última actuación, estará en la pelea sí o sí. Peligroso.",
+                2: "LADY WULFRUN (GB): Yegua de 4 años, también con 63 KG base, pero el descargo del jinete aprendiz G. Arguinzones (monta con 60 KG efectivos) alivia la carga. Viene de ser segunda en su penúltima, mostrando mejora. El uso de tapones y lengua atada sugiere que puede ser nerviosa o tener problemas respiratorios. Incógnita.",
+                3: "ORBAYO (IRE): Veterano de 9 años, ganador en fibra en invierno. Aunque sus últimas no brillan, conoce el trazado y la distancia. Podría agradecer una pista blanda. No para ganar, pero quizás para una colocación menor si tiene el día. La monta de N. De Julián es experimentada.",
+                4: "PIONINA: Potranca de 4 años en clara línea ascendente. Viene de ser segunda en un lote parecido, mostrando adaptación a la distancia. Con un peso intermedio (62,5kg) y la monta de Gelabert, puede seguir progresando y meterse en el trío. Opción interesante.",
+                5: "DEMBE (FR): Caballo asimilado de 5 años con buena secuencia reciente (2º, 3º, 4º, 9º). La monta de Janacek es una garantía. Los 62kg y el cajón exterior (14) son sus contras, pero su forma es buena. A tener en cuenta para combinaciones.",
+                6: "WHIM TRADE (FR): Cuatro años con 62kg y anteojeras. Sus últimas actuaciones (11, 05, 05, 06, 03) muestran alguna colocación lejana, pero necesita mejorar mucho para destacar aquí. El cajón 2 interior puede complicarle.",
+                7: "VIKING CITY (FR): Veterano de 6 años que ha reverdecido laureles con una victoria y un segundo puesto recientes en Dos Hermanas. Demuestra estar en plena forma. Los 61.5kg son correctos para su valor actual. La incógnita es si mantendrá ese nivel en Madrid y en pista blanda, aunque su victoria fue en condiciones similares. Opción sólida para colocado y gemelas.",
+                8: "STARSHADOW (GB): Cinco años con 61,5kg (60,5kg efectivos con Sikorova) y anteojeras. Sus últimas (04, 05, 05, 10, 03) indican que ronda los puestos remunerados, pero le falta para ganar. Podría entrar en un trío ampliado.",
+                9: "SPANISH RULER (FR): Caballo muy regular de la Yeguada Valmodomus. Viene de ser 2º y 4º en lotes similares tras ganar a finales de 2024. Su consistencia es su mejor baza. Los 61kg son llevaderos en este lote y Sousa le aportará garra. Es el favorito lógico por fiabilidad, aunque no siempre remata para ganar. Ideal para apuestas a Ganador/Colocado y base de combinadas.",
+                10: "MARCO AURELIO (IRE): Cuatro años con 59kg. Sus últimas (09, 04, 06, 05, 03) muestran alguna colocación, pero parece un peldaño por debajo de los favoritos. Necesita mejora.",
+                11: "YIRA (FR): Yegua de 4 años con 59kg (57kg efectivos con C. Perez). Sus últimas (03, 07, 07, 05, 07) son discretas. El descargo ayuda, pero necesita un gran salto de calidad.",
+                12: "MAZELTOF (FR): Veterano de 9 años que, aunque no gana, suele figurar (3º en su última). Sprinter reconvertido, en 2200m blandos podría pescar alguna colocación si el ritmo es fuerte y los de delante flaquean. Peso ligero con el descargo (56kg efectivos).",
+                13: "URABA (FR): ¡Ojo a esta yegua! Su reciente segundo puesto tras cambiar a la preparación de I. Elarre fue un aviso muy serio. Baja muchísimo en la escala (54kg, aunque monta con 55kg) lo que la convierte en una amenaza real con ese peso pluma. Si la carrera tiene ritmo, su remate final puede ser letal. La sorpresa más probable.",
+                14: "MAHATMA (IRE): Irregular, pero con el peso mínimo de la carrera (52.5kg, 51.5kg efectivos). Si tiene un buen recorrido y la pista ayuda a los ligeros, podría sorprender colándose en alguna combinación exótica a gran cuota. Difícil de predecir."
             },
             2: { // Carrera 2
-                1: "Potro asimilado (a) con 57 KG. Monta J. Gelabert, entrenador R. Martin A. Equipado con anteojeras australianas (3) y lengua atada (8). Sin historial reciente en el programa. Cajón 4.",
-                2: "Potro con 57 KG. Jinete R. Sousa, entrenador G. Arizkorreta (Cuadra Mediterraneo). Sin actuaciones recientes listadas. El entrenador G. Arizkorreta tiene una presencia notable en la jornada. Cajón 1, el más interior.",
-                3: "Potro con 57 KG. Monta S. Le Quilleuc, preparación J.M. Osorio (Cuadra El Herrojo). Equipado con tapones (4) y lengua atada (8). El programa muestra [06,06,05,02,NP], sugiriendo cierta regularidad en puestos secundarios y una colocación (2°) antes de una no participación (NP). Cajón 13.",
-                4: "Potro con 57 KG. Jinete B. Fayos, entrenador O. Anaya (Cuadra Salvador Marquez). Sin historial reciente en el programa. El entrenador O. Anaya también cuenta con múltiples participantes. Cajón 5.",
-                5: "Potro con 57 KG. Monta N. De Julián, entrenador J.C. Cerqueira (Cuadra Estrellas de Montefaro). Equipado con anteojeras (5) y lengua atada (8). Sin actuaciones recientes listadas. Cajón 9.",
-                6: "Potro con 57 KG. Monta del aprendiz A. Serrano (con 54,5 KG efectivos), preparación J. Lopez (Cuadra Bernie). Correrá con anteojeras (5). Sin historial reciente en el programa. El descargo reduce su peso efectivo. Cajón 2.",
-                7: "Potro con 57 KG. Monta del aprendiz C. Perez (con 55 KG efectivos), entrenador B. Rama (Cuadra Ajedrez Racing). Correrá con lengua atada (8). Sin actuaciones recientes listadas. Otro con peso efectivo reducido por el descargo. Cajón 8.",
-                8: "Potro con 57 KG. Jinete V. Janacek, entrenador G. Arizkorreta (Cuadra Valladolid). Sin historial reciente en el programa. Segunda baza de G. Arizkorreta en la carrera. Cajón 6.",
-                9: "Potro con 57 KG. Monta R.N. Valle, entrenador O. Anaya (Cuadra Reza Pazooki). El programa indica [08,02,04,07,NP], una secuencia irregular con una colocación (2°) como mejor resultado listado. Cajón 7.",
-                10: "Potro con 57 KG. Jinete V. Seguy (Gorra Roja), entrenador A. Tsereteli (Cuadra Mediterraneo). El programa solo indica [NP], una no participación. Cajón 14.",
-                11: "Potranca con 55,5 KG (peso base de hembra). Monta I. Mendizabal, entrenador G. Arizkorreta (Cuadra Alex y Sofia). El programa muestra [09,NP]. Tercera participante de G. Arizkorreta. Cajón 15, exterior.",
-                12: "Potranca con 55,5 KG. Monta del aprendiz G. Arguinzones (con 54,5 KG efectivos), preparación B. Rama (Cuadra Canarias). Equipada con tapones (4). Sin historial reciente en el programa. Cajón 10.",
-                13: "Potranca con 55,5 KG. Jinete H. Mouesan, entrenador T. Callejo S. (Cuadra Esgueva). Equipada con anteojeras australianas (3) y lengua atada (8). El programa indica [04,07,07,03, NP], mostrando regularidad en puestos intermedios y una colocación (3°). Cajón 3.",
-                14: "Potranca con 55,5 KG. Monta A. Gutierrez V., entrenador Ch. Delcher (Cuadra Agrado Ch.). Sin historial reciente en el programa. Cajón 11.",
-                15: "Potranca con 55,5 KG. Jinete V.M. Valenzuela, entrenador O. Anaya (Cuadra Iru). Sin historial reciente en el programa. Tercera baza de O. Anaya. Cajón 16, el más exterior.",
-                16: "Potranca con 55,5 KG. Monta de la jocketa D. Sikorova (con 54,5 KG efectivos, Gorra Amarilla), entrenador A. Soto (Cuadra Mediterraneo). Correrá con lengua atada (8). El programa indica [NP,04]. Cajón 12."
+                1: "AFRICAN RULER (FR): Potro asimilado con equipamiento completo (carrilleras, lengua atada). Sus dos actuaciones (6º, 4º) son discretas. Necesita mejorar mucho. Monta de Gelabert.",
+                2: "ALHAURIN (IRE): Pupilo de Arizkorreta que ha sido tercero en sus dos únicas salidas (1600m y 1500m). Nunca ha fallado. El recorte a 1400m podría incluso beneficiarle. Con Sousa y desde el cajón 5 (no el 1 como se dijo antes), sigue siendo el candidato principal por solidez.",
+                3: "AÑOVER: Potro con experiencia (5 salidas), incluyendo un segundo puesto. Viene de dos sextos. La pista blanda podría ayudarle por su posible fondo. Equipado con tapones y lengua atada. Opción secundaria.",
+                4: "AS BESTAS (IRE): Debutó octavo. Es su segunda carrera. Con Fayos insistiendo y la preparación Anaya, no se puede descartar una mejora notable. Incógnita con potencial.",
+                5: "BRISEO (FR): Acumula cinco quintos puestos consecutivos. Regularidad en un nivel bajo. Necesita un salto de calidad importante para figurar aquí. Equipado.",
+                6: "DALLAS: Viene de mejorar a 4º. Con el descargo del aprendiz A. Serrano, saldrá muy ligero de peso (54,5kg efectivos). Podría colarse en alguna combinación si los favoritos no tienen su día. Opción de valor.",
+                7: "DONENTAL (GB): De los más experimentados (5 salidas), casi siempre en la llegada (2º, 3º, 3º, 4º). Muy regular y fiable, pero quizás le falta ese 'punch' final para ganar. Ideal para buscar una colocación o incluir en tríos. Peso efectivo 55kg.",
+                8: "ETERNAL SANDS (IRE): Otro Arizkorreta. Debutó segundo causando buena impresión, pero falló (8º) en su siguiente en un lote muy superior (Premio Opcional). Se le espera una rehabilitación aquí. Calidad tiene, y Janáček es garantía. Si vuelve por sus fueros, rival directo de Alhaurín.",
+                9: "MANUCHEHR (GB): Irregular (8º, 2º, 4º, 7º, NP). Su segundo puesto demuestra que tiene capacidad, pero no es fiable. Preparación Anaya. Difícil.",
+                10: "VIZCONDE (FR): Debutante (NP en el programa). Preparación Tsereteli y monta de Seguy. Sin referencias, es una incógnita total. Puede sorprender o no figurar.",
+                11: "DANGARA (GB): Solo un noveno puesto y una no participación. Necesita demostrar mucho más. Tercera baza de Arizkorreta.",
+                12: "EARTHVIEW (GB): Dos actuaciones discretas (11º, 7º). Peso efectivo bajo (54,5kg) por el descargo. Necesita gran mejora.",
+                13: "INTERROGATION: Potranca con experiencia (5 salidas), incluyendo un tercer puesto. Sus últimas son más discretas (4º, 7º, 7º). Equipada. Opción menor.",
+                14: "KAMARA (IRE): Solo una carrera, finalizando tercera con un buen remate. Es la gran incógnita. Si ha progresado durante el invierno bajo la preparación de Delcher, puede dar la sorpresa. Interesante para apuestas de valor.",
+                15: "TARA ROAD (IRE): Preparación Anaya. Ha sido segunda en dos ocasiones en lotes similares, peleando la victoria. Su última (8º) fue discreta, quizás por pista pesada. A 1400m debería ir bien. Si tiene un recorrido limpio desde su cajón exterior (16), estará definiendo. Muy peligrosa.",
+                16: "ZALAMERA (IRE): Mejoró a cuarta en su segunda salida (NP, 04). Aún 'verde', pero con margen de mejora. Peso efectivo 54,5kg. Puede seguir progresando."
             },
              3: { // Carrera 3 - GP Cimera
-                1: "Potro con 57 KG. Monta D. Sikorova, entrenador A. Soto (Cuadra Mediterraneo). Sin historial reciente en programa. Cajón 9.",
-                2: "Potro con 57 KG. Jinete R. Sousa (Gorra Roja), entrenador A. Soto (Cuadra Mediterraneo). Correrá con lengua atada (8). Sin actuaciones recientes listadas. Segunda baza de A. Soto. Cajón 6.",
-                3: "Potro con 57 KG. Monta B. Fayos, entrenador O. Anaya (Cuadra Reza Pazooki). Sin historial reciente en programa. Cajón 7.",
-                4: "Potro con 57 KG. Jinete J. Gelabert, entrenador J. Lopez (Cuadra Corredores Agrupados). El programa muestra [03,NP,05,02,05], una secuencia que incluye dos colocaciones (3º y 2º) entre resultados más discretos y una no participación. Cajón 5.",
-                5: "Potro con 57 KG. Monta V. Seguy, entrenador A. Tsereteli (Cuadra San Jose). Sin historial reciente en programa. Cajón 1.",
-                6: "Potro con 57 KG. Jinete V. Janacek, entrenador G. Arizkorreta (Yeguada Rocio). Correrá con lengua atada (8). Sin actuaciones recientes listadas. Primera opción de G. Arizkorreta aquí. Cajón 4.",
-                7: "Potro con 57 KG. Monta N. De Julián, entrenador J.C. Cerqueira (Cuadra Estrellas de Montefaro). Sin historial reciente en programa. Cajón 11.",
-                8: "Potro con 57 KG. Jinete A. Gutierrez V., entrenador F. Jimenez (Cuadra El Roque Canarias). Correrá con lengua atada (8). Sin historial reciente en programa. Cajón 3.",
-                9: "Potro con 57 KG. Monta S. Le Quilleuc, entrenador M. Alonso R. (Cuadra Asier Sanchez). Correrá con lengua atada (8). Sin historial reciente en programa. Cajón 10.",
-                10: "Potro con 57 KG. Jinete R.N. Valle, entrenador G. Arizkorreta (Cuadra Peques). Sin historial reciente en programa. Segunda baza de G. Arizkorreta. Cajón 2.",
-                11: "Potro con 57 KG. Monta I. Mendizabal, entrenador G. Arizkorreta (Yeguada AGF). Sin historial reciente en programa. Tercera participación de G. Arizkorreta. Cajón 8."
+                1: "GAUCIN (FR): Compañero de patio de Goodmood. Ha mostrado una gran progresión, siendo segundo en la preparatoria (detrás de Goodmood) y ganando después con solvencia. Muy en forma y con garra. La monta de Sikorova es competente. Desde el cajón 9, buscará rematar por fuera. Tercero en discordia claro.",
+                2: "GOODMOOD (IRE): El caballo a batir por historial reciente. Tres victorias en sus últimas cinco, incluyendo el Opcional batiendo a Gaucín. Demuestra clase, remate y adaptación a diferentes ritmos y terrenos (ganó en pesado). Conoce la milla y Sousa le entiende a la perfección. Cajón 6 ideal. Favorito sólido.",
+                3: "METRO DUBAI (FR): Ganador del Criterium de invierno (arena). Demostró en la preparatoria (3º) que en hierba también rinde. Siempre competitivo. Monta de Fayos. Opción para tríos ampliados.",
+                4: "SIR EDWARD (IRE): Mostró nivel en otoño (2º), pero sus últimas son más flojas (5º, 5º tras NP). Necesita recuperar su mejor versión. Monta de Gelabert desde cajón 5. Incógnita.",
+                5: "SKYTREE (FR): El invicto que ha maravillado. Dos de dos, ganando con autoridad pasmosa en Madrid (1400m) y Dos Hermanas (1600m). Mucha clase y velocidad. La incógnita es su falta de experiencia en lotes tan nutridos y la presión de un Grupo A saliendo del cajón 1. Si maneja la situación y la pista blanda, es un rival temible. Co-favorito.",
+                6: "SOLTAN GATSBY (FR): Ganador del Gran Criterium Nacional en otoño (aprovechando descargo). Viene de ser segundo en un ensayo (detrás de Yo Mauro) y cuarto en el Opcional. Tiene experiencia en la milla y la dupla Janáček/Arizkorreta es temible en estas citas. Si los favoritos se vigilan, podría pescar en río revuelto.",
+                7: "STAR ONE (FR): Ganó en su segunda salida, pero luego fue quinto en un lote inferior. Parece un escalón por debajo de los principales. Necesita mejorar.",
+                8: "TANAGER (GB): Solo colocaciones menores (tres terceros) en 5 salidas. Parece limitado a este nivel. Difícil.",
+                9: "WELLINGTON PREMIER (FR): Ganó en otoño, pero sus actuaciones de primavera (4º, 4º, 6º) no impresionan para una Poule. Necesita un salto cualitativo.",
+                10: "YO MAURO (IRE): Otro Arizkorreta, de una regularidad asombrosa (2º de Skytree, 1º fácil, 2º de Gaucín). Siempre competitivo y luchador. Aunque su jockey es menos mediático, su preparación y forma le hacen muy peligroso. Podría dar la sorpresa a los dos grandes favoritos.",
+                11: "YOGUI (FR): Segundo espada de Arizkorreta. Aún no ha ganado (dos segundos, un cuarto), pero tiene un buen remate. Si encuentra paso en la recta final (desde cajón 8), podría mejorar su historial y colarse en el trío. Sorpresa remota."
             },
              4: { // Carrera 4
-                1: "Caballo de 6 años con el peso máximo (63 KG). Monta A. Gutierrez V., entrenador J.L. Maroto (Cuadra Babieca). El programa muestra [NP,NP,03,02,08], indicando dos no participaciones recientes seguidas de dos buenas colocaciones (3º y 2º). El peso alto refleja esas colocaciones pasadas. Cajón 10.",
-                2: "Yegua de 4 años con 61,5 KG. Jinete V.M. Valenzuela, entrenador A. Tsereteli (Cuadra Oro). Sin historial reciente en el programa. Peso elevado. Cajón 1.",
-                3: "Seis años, 61 KG. Monta B. Fayos, entrenador J.M. Osorio (Cuadra Africa). Sin historial reciente en el programa. Peso alto. Cajón 6.",
-                4: "Cuatro años, 59,5 KG. Jinete V. Janacek, entrenador G. Arizkorreta (Cuadra Pinna Fidelis). Sin historial reciente en el programa. Peso en la zona media-alta. Cajón 11.",
-                5: "Cuatro años, 59,5 KG. Monta D. Sikorova (con 58,5 KG efectivos, Gorra Blanca), entrenador J.M. Osorio (Cuadra Africa). Correrá con lengua atada (8). Sin historial reciente en el programa. Segunda baza de J.M. Osorio. Cajón 4.",
-                6: "Yegua de 4 años con 59 KG. Jinete R. Sousa, entrenador A. Tsereteli (Cuadra Delta). Sin historial reciente en el programa. Segunda baza de A. Tsereteli. Cajón 12.",
-                7: "Cinco años, 58,5 KG. Monta J. Gelabert, entrenador J.L. Maroto (Cuadra Palco 7). Equipado con anteojeras australianas (3). Sin historial reciente en el programa. Segunda baza de J.L. Maroto. Cajón 3.",
-                8: "Yegua asimilada (a) de 4 años, con 57,5 KG. Monta I. Mendizabal, entrenador J. Horcajada (Cuadra Copihue). Correrá con lengua atada (8). Sin historial reciente en el programa. Peso intermedio. Cajón 8.",
-                9: "Seis años, 57,5 KG. Monta del aprendiz V. Alonso V. (con 56,5 KG efectivos), entrenador Ch. Delcher (Cuadra 
+                1: "MONEYMAN (GB): Viene de dos no participaciones tras dos buenas colocaciones (3º, 2º). El peso máximo (63kg) refleja esa calidad pasada. Si está recuperado, puede ser peligroso, aunque la reaparición con tanto peso es difícil. Podría marcar el paso.",
+                2: "RUESGA (IRE): Ganó dos carreras seguidas en invierno subiendo de valor. Reapareció con un tercer puesto correcto. Llega más afinado a esta segunda salida del año. Los 61.5kg son exigentes, pero tiene calidad y gusto por la victoria. Peligroso si impone su ritmo desde el cajón 1.",
+                3: "VEREMOS (GB): Veterano muy regular. Acumula dos terceros puestos recientes en lotes similares. Conoce la distancia y la pista blanda le va bien. Con 61kg, quizás más para colocado que para ganar, pero su experiencia es un plus.",
+                4: "TRADE HONOUR (FR): Viene de dos magníficos segundos puestos en hándicaps de nivel, perdiendo por muy poco. Ganó en otoño. Con un peso razonable (59.5kg) y Janáček, es el caballo a batir. Muy fiable y con buen remate. Sale abierto (cajón 11).",
+                5: "NAT IMPACT (GB): Hermano de Veremos, misma cuadra y preparación. Actuaciones discretas (5º, 7º, 5º, 7º). Necesita mejorar. Monta con descargo (58,5kg efectivos).",
+                6: "LUNA ROSSA: Yegua tremendamente consistente. Casi siempre en el dinero (victorias, segundos, terceros). Se adapta a todo. Con 59kg y Sousa, es la principal rival de Trade Honor. Su remate final es poderoso. Sale muy abierta (cajón 12).",
+                7: "CHENER (FR): Viene de ganar en su última (en línea recta), mostrando estar en forma. Sube de categoría y vuelve a una distancia más larga, pero con 58.5kg y Gelabert, podría seguir en la buena línea. A vigilar.",
+                8: "FLOREA (FR): Yegua asimilada con buena forma reciente (3º, 2º, 1º, 4º, 7º). Su victoria fue en lote inferior. Con 57,5kg y Mendizabal, puede optar a una colocación.",
+                9: "SUN KING (IRE): Veterano que suele colarse en llegadas apretadas (varios terceros recientes). Si el ritmo no es muy exigente, podría aguantar cerca y rascar una colocación con su peso ligero (56,5kg efectivos).",
+                10: "MYSTERY LAND: Ganó en su última tras un tiempo discreto. Ha reencontrado sensaciones. Sube de nivel, pero con peso ligero (55,5kg efectivos) y monta con descargo, podría repetir buena actuación si la carrera se vuelve táctica.",
+                11: "TRAMPAS: Actuaciones muy pobres (8º, 17º, 9º, 9º, 7º). Necesita una transformación radical para figurar, incluso con peso bajo (54kg efectivos).",
+                12: "XERAC (IRE): ¡El tapado! Este 4 años de Arizkorreta ha estado colocado en hándicaps similares (dos terceros, un cuarto) y aquí corre con el peso mínimo (54.5kg). Esa ligereza en pista blanda puede ser oro. Si los de arriba se pelean, podría dar la gran sorpresa. Muy interesante para apuestas de valor."
+            },
+            5: { // Carrera 5 - GP Valderas
+                1: "ANNIE'S SONG (FR): Actuaciones modestas (6º, 3º, 7º, 7º). Su tercer puesto fue en lote inferior. Necesita mejorar mucho para la Poule.",
+                2: "BATED DREAM (IRE): Explotó este año ganando dos carreras, incluyendo el Opcional contra machos con autoridad. Demostró mucha calidad. Aunque fue 4ª en su última (quizás acusando esfuerzo previo), tiene peligro si impone su velocidad desde el cajón 1.",
+                3: "CASTING A SPELL (IRE): Regularidad en colocaciones menores (3º, 4º, 3º, 6º, 3º). Combativa, pero parece un peldaño por debajo de las favoritas.",
+                4: "ECOLOGY (IRE): La potranca enrachada. Viene de ganar dos carreras seguidas 'de punta a punta', subiendo de valor. Si Fayos consigue dosificarla en cabeza desde el cajón exterior (13) y la pista ayuda, puede ser muy difícil de pasar. La sorpresa peligrosa.",
+                5: "FICTION (GB): Dominadora del invierno con tres victorias seguidas, mostrando un cambio de ritmo brutal. Falló (7ª) en su última, quizás por pista pesada o un mal día. Si Anaya la recupera, tiene clase para ganar. Monta de Sousa desde el cajón 2 (riesgo de encierro). Co-favorita con incógnitas.",
+                6: "GHOST RUN (GB): Ganó bien en otoño, pero sus actuaciones de primavera (10º, 7º) son decepcionantes. Necesita volver a su mejor nivel. Preparación Arizkorreta.",
+                7: "LADY COCODY (FR): Ganó en Madrid y fue 2ª y 3ª, pero algo diluida en la preparatoria (5ª). Necesita mejorar para pelear con las mejores aquí.",
+                8: "LEVHAIMUR (GB): La más sólida por forma reciente. Ganadora del Critérium Nacional en otoño, viene de dos segundos puestos en preparatorias fuertes contra machos (Atlántida y Torneo). Consistente, con un potente remate final. Monta de Gutierrez y cajón 7 ideal. Favorita principal.",
+                9: "MARMARA (GB): Ganó un buen maiden y fue 2ª en Grupo III local el año pasado. Reapareció floja (7º). Si retoma su progresión juvenil, a cuota muy alta podría rascar un tercer puesto impensable. Cajón 6.",
+                10: "OCTANS: Otra Arizkorreta (Yeguada Rocío). Muy regular: dos victorias (Critérium Potrancas, reaparición) y dos segundos (detrás de Leyhaimur por la mínima en el Atlántida). Ganó en blando. Versátil tácticamente. Con Janáček desde el cajón 3, es una candidata muy seria al triunfo.",
+                11: "THEYKNOWWEKNOW (IRE): Ganadora del Gran Criterium de Potrancas en septiembre pasado, pero luego tuvo altibajos (5º, 1º en Francia, 2º, 2º). Si recupera su mejor nivel, tiene clase para estar en la llegada, aunque el cajón 12 no ayuda.",
+                12: "VOZPORNOCHE (IRE): Alterna victorias (2) y buenas colocaciones (dos 3ºs) en carreras duras. Muy combativa. Entrenada por Tsereteli (ganador 2023). Si la lucha es dura, podría aprovechar un hueco interior (cajón 4) para colarse.",
+                13: "ZAMBRA (FR): Ganó en otoño, pero sus actuaciones primaverales son más discretas (3º, 6º, 4º, 4º). Parece necesitar más distancia o un lote inferior. Cajón 10."
+            },
+             6: { // Carrera 6
+                1: "PARTING GLASS (IRE): El top weight (63kg). Ganador el año pasado, pero sus últimas son discretas (9º, 6º). Necesita mejorar mucho para justificar los kilos en un sprint tan competitivo.",
+                2: "ORIGEN (IRE): Ganador de dos carreras recientes (1400m, 1200m) mostrando velocidad. Reapareció 4º. Bajar a 1000m puede sentarle bien. Muy rápido de salida. Los 61kg son su principal hándicap, pero su punta de velocidad inicial le da opciones serias de colocación.",
+                3: "ASSEMBLY CALL (IRE): El caballo en forma. Tres victorias en sus últimas cuatro, incluyendo la más reciente, subiendo de valor. Calidad sprinter contrastada. Aunque carga peso (60.5kg), su remate final puede ser decisivo. Suele venir de atrás. Favorito principal.",
+                4: "ABACUR (FR): Ganador de sprint y colocado en pruebas de nivel (3º Soudzou). Buen cambio de ritmo. Su última (5º Covarrubias) fue correcta. Con Janáček buscando el mejor carril desde el cajón 3, es una opción seria para el trío.",
+                5: "JUNGLE FEVER (IRE): Alterna distancias, pero ya ganó en 1200m. En 1000m puede adaptarse. Sus últimas (4º, 5º, 2º) muestran que está cerca. Desde el cajón 1 interior.",
+                6: "ALL IS FAIR (IRE): Ganó en línea recta en otoño. Algo irregular después (7º, 4º). Con 59kg, podría resurgir si tiene un buen día. Tiene una gran salida, podría intentar liderar.",
+                7: "BE TRUE (FR): La yegua viene de ganar un hándicap importante (1200m) con un final espectacular. Antes fue segunda en Madrid. Muy veloz y en momento dulce. Con un peso competitivo (58.5kg) y la monta de Sousa desde el cajón exterior (10), es la gran rival de Assembly Call.",
+                8: "FRED ON FIRE (IRE): Potranca de 3 años, ganadora de un sprint en otoño contra coetáneos. Sus subidas de categoría (4ª, 8ª) no fueron buenas. Recibe peso (55kg), pero le falta experiencia contra mayores en Madrid. Incógnita.",
+                9: "SIR GEOFF MORGAN (IRE): El otro 3 años. Brilló en Dos Hermanas ganando dos hándicaps seguidos. Falló en su incursión en Madrid (9º), pero aquí corre con un peso pluma (52kg). Si se adapta a la recta de LZ desde el cajón 2, puede ser la gran sorpresa por su ligereza.",
+                10: "BERSERKER EXTREM: El de menor valor, pero con solo 52 kg. Sus últimas no invitan al optimismo (6º, 5º, 5º), pero ya dio alguna sorpresa en sprints con peso similar. Opción remotísima pero a cuota astronómica."
+            }
+        };
+
+
+        // Función para obtener el análisis detallado de un caballo
+        function getHorseAnalysis(raceNum, horseNum) {
+            // Intenta obtener el análisis específico
+            const analysis = horseAnalysisData[raceNum]?.[horseNum];
+            // Si no existe, devuelve un mensaje genérico
+            return analysis || "Análisis experto detallado no disponible para este participante.";
+        }
+
+        // Muestra la ventana modal con los detalles del caballo seleccionado
+        function showHorseModal(rowElement, raceNum) {
+            const cells = rowElement.querySelectorAll('td');
+            if (cells.length < 9) return; // Asegurar que la fila tiene suficientes celdas
+
+            // Extraer datos de las celdas de la tabla
+            const num = cells[0].textContent.trim();
+            const nameWithEquip = cells[1].textContent.trim();
+            const age = cells[2].textContent.trim();
+            const kg = cells[3].textContent.trim();
+            const jockey = cells[4].textContent.trim();
+            const cuadra = cells[5].textContent.trim();
+            const trainer = cells[6].textContent.trim();
+            const cajon = cells[7].textContent.trim();
+            const ultAct = cells[8].textContent.trim();
+
+            // Procesar nombre y equipamiento
+            let horseName = nameWithEquip;
+            let equipHtml = '';
+            const equipRegex = /\s*\(([\da-z]+)\)/gi; // Regex para encontrar símbolos entre paréntesis
+            let match;
+            const equipSymbolsFound = []; // Almacenar símbolos encontrados
+
+            // Extraer todos los símbolos de equipamiento del nombre
+            while ((match = equipRegex.exec(nameWithEquip)) !== null) {
+                equipSymbolsFound.push(match[0].trim());
+            }
+            // Limpiar el nombre del caballo quitando los símbolos
+            horseName = nameWithEquip;
+            equipSymbolsFound.forEach(symbol => {
+                const escapedSymbol = symbol.replace(/[()]/g, '\\$&'); // Escapar paréntesis para regex
+                horseName = horseName.replace(new RegExp(`\\s*${escapedSymbol}`), ''); // Quitar símbolo y espacio
+            });
+            horseName = horseName.trim(); // Nombre limpio
+
+            // Mapear símbolos a texto descriptivo
+            const equipFound = [];
+             equipSymbolsFound.forEach(symbol => {
+                 if (equipamientoMap[symbol]) {
+                     equipFound.push(equipamientoMap[symbol]); // Añadir descripción si existe en el mapa
+                 }
+             });
+             // Generar HTML para mostrar el equipamiento
+             if (equipFound.length > 0) {
+                equipHtml = equipFound.map(e => `<span class="inline-block bg-gray-200 text-gray-700 px-2 py-0.5 rounded text-xs mr-1 mb-1">${e}</span>`).join('');
+             } else {
+                 equipHtml = '<span class="text-gray-500 text-xs">Ninguno</span>'; // Mensaje si no hay equipamiento
+             }
+
+            // Obtener el estatus del pick y el análisis detallado
+            const pick = getPickStatus(raceNum, horseName);
+            const analysisText = getHorseAnalysis(raceNum, parseInt(num));
+
+            // Rellenar los campos del modal
+            document.getElementById('modalHorseName').textContent = `${num}. ${horseName}`;
+            document.getElementById('modalHorseNum').textContent = num;
+            document.getElementById('modalHorseAge').textContent = age;
+            document.getElementById('modalHorseKg').textContent = kg;
+            document.getElementById('modalHorseJockey').textContent = jockey;
+            document.getElementById('modalHorseCuadra').textContent = cuadra;
+            document.getElementById('modalHorseTrainer').textContent = trainer;
+            document.getElementById('modalHorseCajon').textContent = cajon;
+            document.getElementById('modalHorseUltAct').textContent = ultAct;
+            document.getElementById('modalHorseEquip').innerHTML = equipHtml; // Usar innerHTML para los spans
+            document.getElementById('modalAnalysisText').textContent = analysisText; // Usar textContent para el análisis
+
+            // Mostrar el estatus del pick si existe
+            const pickStatusDiv = document.getElementById('modalPickStatus');
+            if (pick.status !== 'none') {
+                pickStatusDiv.textContent = pick.text; // Texto del pick
+                pickStatusDiv.className = 'modal-pick-status'; // Resetear clases
+                pickStatusDiv.classList.add(pick.class); // Añadir clase de color
+                pickStatusDiv.classList.remove('hidden'); // Mostrar
+            } else {
+                 pickStatusDiv.classList.add('hidden'); // Ocultar si no es un pick
+            }
+
+            // Mostrar el modal
+            document.getElementById('horseModal').classList.add('active');
+        }
+
+        // Cierra la ventana modal
+        function closeModal() {
+            document.getElementById('horseModal').classList.remove('active');
+        }
+
+        // Cierra el modal si se hace clic fuera del contenido
+        function closeModalOutside(event) {
+             if (event.target === document.getElementById('horseModal')) {
+                 closeModal();
+             }
+        }
+
+    </script>
+
+</body>
+</html>
